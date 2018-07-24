@@ -1,24 +1,26 @@
-# README
+# Reuni UI
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Reuni system is a centralized service re-configuration manager for microservices architecture.
 
-Things you may want to cover:
+This repository is intended for the REUNI UI client for the reuni system. This ui client provide:
+- User management
+- Service and namespace management
+- Configurations management for each namespace
 
-* Ruby version
+Prerequisite:
+- ruby 2.0.0 or above
+- rails `gem install rails`
 
-* System dependencies
+To test application:
+`bin/rails test`
 
-* Configuration
+To run application:
+`rails server`
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Authors: GO-SQUAD Tech 2.0 Team Bravo
+- [malamsyah](https://github.com/malamsyah)
+- [rifkiadrn](https://github.com/rifkiadrn)
+- [vin0298](https://github.com/vin0298)
+- [vincentius15](https://github.com/vincentius15)
+- [reynaldipane](https://github.com/reynaldipane)
+- [kanisiuskenneth](https://github.com/kanisiuskenneth)
