@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   root 'namespaces#index'
 
   get 'namespace/new' => 'namespaces#new_namespace'
+  post 'namespace/new' => 'namespaces#store_new_namespace'
 end
