@@ -27,12 +27,12 @@
 
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li>
-                <a href="#" style="color: #ffffff;" onMouseOver="this.style.color='#000000'"
-                onMouseOut="this.style.color='#ffffff'">
-                    Namespaces
-                </a>
-            </li>
+                <li>
+                    <a href="/service" style="color: #ffffff;" onMouseOver="this.style.color='#000000'"
+                    onMouseOut="this.style.color='#ffffff'">
+                        Service
+                    </a>
+                </li>
             </ul>
           </div>
 
@@ -123,10 +123,14 @@
                     jsonConfigs[arrKeys[i]] = arrValues[i]
                 }
 
+                var arrServiceName = window.location.pathname.split( '/' );
+                var servicename = arrServiceName[2] 
+                
                 axios({
                     method: 'post',
                     url: '/namespace/new',
                     data: {
+                        servicename: servicename,
                         namespace: $("#namespace").val(),
                         configurations: jsonConfigs
                     },
@@ -135,7 +139,7 @@
                         'Content-Type': 'application/json'
                     }
                 }).then(() => {
-                    window.location.replace("http://localhost:3000/");    
+                    window.location.replace(`http://localhost:3000/namespace/${servicename}`);    
                 });
             })
 

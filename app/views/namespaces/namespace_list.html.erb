@@ -26,11 +26,11 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#" style="color: #ffffff;" onMouseOver="this.style.color='#000000'"
+                        <a href="/service" style="color: #ffffff;" onMouseOver="this.style.color='#000000'"
                         onMouseOut="this.style.color='#ffffff'">
-                            Namespaces
+                            Service
                         </a>
-                </li>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -39,7 +39,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-offset-1">
-                <a href="/namespace/new" class="btn btn-info" style="text-decoration:none;">
+                <a href="/namespace/<%= @servicename %>/new" class="btn btn-info" style="text-decoration:none;">
                     Add new namespace +
                 </a>
             </div>
@@ -60,8 +60,8 @@
                                 <td><%= namespace["namespace"] %></td>
                                 <td><%= namespace["version"] %></td>
                                 <td>
-                                    <a href="#">
-                                        Configs
+                                    <a href="/namespaces/<%=@servicename%>/<%=namespace["namespace"]%>">
+                                        View Configs
                                     </a>
                                 </td>
                             </tr>

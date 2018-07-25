@@ -6,7 +6,8 @@ class NamespacesController < ApplicationController
     end
 
     def namespace_list
-        response = HTTParty.get("http://localhost:8080/services/#{params['servicename']}/namespaces")
+        @servicename = params['servicename']
+        response = HTTParty.get("http://localhost:8080/services/#{@servicename}/namespaces")
         @namespaces = JSON.parse(response.body)
     end
 
@@ -22,4 +23,5 @@ class NamespacesController < ApplicationController
             }.to_json,
             :headers => { 'Content-Type' => 'application/json' })
     end
+
 end
