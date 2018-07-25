@@ -44,15 +44,21 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="form-group">
-                        <label for="namespace">NAMESPACE</label>
-                        <input type="text" class="form-control" id="namespace" placeholder="New namespace...">
+                        <label for="namespace">SERVICE</label>
+                        <input type="text" class="form-control" id="service-name" placeholder="New service name...">
                     </div>
                 </div>
             </div>
             <hr>
             <div class="row">
+                <div class="col-md-6 col-md-offset-2">
+                    <strong>When creating new service, you'll require to add default configurations</strong>
+                </div>
+            </div>
+            <hr>        
+            <div class="row">
                 <div class="col-md-2 col-md-offset-2">
-                    <button class="btn btn-info" id="add-more">Add New Key +</button>
+                    <button class="btn btn-info" id="add-more">Add New Default Key +</button>
                 </div>
             </div>
             <br>
@@ -125,18 +131,35 @@
 
                 axios({
                     method: 'post',
-                    url: '/namespace/new',
+                    url: '/service/new',
                     data: {
-                        namespace: $("#namespace").val(),
-                        configurations: jsonConfigs
+                        name: $("#service-name").val()
                     },
                     headers: {
                         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
                         'Content-Type': 'application/json'
                     }
                 }).then(() => {
-                    window.location.replace("http://localhost:3000/");    
-                });
+                    axios({
+                        method: 'post',
+                        url: '/namespace/new',
+                        data: {
+                            servicename: $("#service-name").val(),
+                            namespace: "default",
+                            configurations: jsonConfigs
+                        },
+                        headers: {
+                            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(() => {
+                        window.location.replace(`http://localhost:3000/namespace/${$("#service-name").val()}`);   
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+                }).catch((err) => {
+                    console.log(err)
+                })
             })
 
             function parseNodeList(nodeName) {
