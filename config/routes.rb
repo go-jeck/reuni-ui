@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post 'service/new' => 'services#store_new_service'
 
   get 'namespace/:servicename/new' => 'namespaces#new_namespace'
+  get 'namespace/:servicename/:namespace/:version' => 'configurations#configuration_list'
   get 'namespace/:servicename' => 'namespaces#namespace_list'
   post 'namespace/new' => 'namespaces#store_new_namespace'
 end
