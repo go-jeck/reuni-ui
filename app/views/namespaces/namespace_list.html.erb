@@ -1,35 +1,35 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-offset-1">
-            <a href="/namespace/<%= @servicename %>/new" class="btn btn-info" style="text-decoration:none;">
-                Add new namespace +
-            </a>
-        </div>
+  <div class="row">
+    <div class="col-md-offset-1">
+      <a href="/namespace/<%= @servicename %>/new" class="btn btn-info" style="text-decoration:none;">
+        Add new namespace +
+      </a>
     </div>
-    <br>
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <table class="table table-hover">
-                <thead>
-                    <th>Namespaces</th>
-                    <th>Version</th>
-                    <th>Action</th>
-                </thead>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <table class="table table-hover">
+        <thead>
+          <th>Namespaces</th>
+          <th>Version</th>
+          <th>Action</th>
+        </thead>
 
-                <tbody>
-                    <% @namespaces.each do |namespace|%>
-                        <tr>
-                            <td><%= namespace["namespace"] %></td>
-                            <td><%= namespace["version"] %></td>
-                            <td>
-                                <a href="/namespace/<%=@servicename%>/<%=namespace["namespace"]%>/<%= namespace["version"]%>">
-                                    View Configs
-                                </a>
-                            </td>
-                        </tr>
-                    <% end %>
-                </tbody>
-            </table>
-        </div>
+        <tbody>
+          <% @namespaces.each do |namespace|%>
+            <tr>
+              <td><%= namespace["namespace"] %></td>
+              <td><%= namespace["version"] %></td>
+              <td>
+                <a href="/namespace/<%=@servicename%>/<%=namespace["namespace"]%>/<%= namespace["version"]%>">
+                  View Configs
+                </a>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
