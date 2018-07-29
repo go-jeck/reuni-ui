@@ -1,7 +1,9 @@
 require 'httparty'
 
 class ConfigurationsController < ApplicationController
-
+    include ApplicationHelper
+    before_action :require_loggedin
+    
     def configuration_list
         @servicename = params['servicename']
         @namespace = params['namespace']
