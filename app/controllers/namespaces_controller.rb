@@ -11,7 +11,7 @@ class NamespacesController < ApplicationController
   def namespace_list
     @servicename = params['servicename']
     response = HTTParty.get(
-      "http://localhost:8080/services/#{@servicename}/namespaces",
+      "#{ENV['REUNI_HOST']}/services/#{@servicename}/namespaces",
       headers: {
         'Authorization' => "Bearer #{session['current_user_token']}"
       }
@@ -23,7 +23,7 @@ class NamespacesController < ApplicationController
 
   def store_new_namespace
     @result = HTTParty.post(
-      "http://localhost:8080/services/#{params['servicename']}/namespaces",
+      "#{ENV['REUNI_HOST']}/services/#{params['servicename']}/namespaces",
       body: {
         namespace: params['namespace'],
         configurations: params['configurations']

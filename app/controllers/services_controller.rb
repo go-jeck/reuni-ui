@@ -8,7 +8,7 @@ class ServicesController < ApplicationController
 
   def service_list
     response = HTTParty.get(
-      "http://localhost:8080/services",
+      "#{ENV['REUNI_HOST']}/services",
       :headers => {
         "Authorization" => "Bearer #{session["current_user_token"]}",
         "Content-Type" => "application/json"
@@ -20,7 +20,7 @@ class ServicesController < ApplicationController
 
   def store_new_service
     @result = HTTParty.post(
-      "http://localhost:8080/services",
+      "#{ENV['REUNI_HOST']}/services",
       :body => {
         :name => params['name'],
       }.to_json,
