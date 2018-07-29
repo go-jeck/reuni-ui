@@ -9,6 +9,8 @@ RUN apk add --no-cache --update build-base \
 
 ENV APP_PATH /usr/src/app
 
+RUN gem install bundler
+
 # Different layer for gems installation
 WORKDIR $APP_PATH
 ADD Gemfile $APP_PATH
