@@ -20,4 +20,33 @@ class ConfigurationsController < ApplicationController
     @configkeys = @configs['configuration'].keys
     @configvalues = @configs['configuration'].values
   end
+
+  def configuration_update
+    @recentservicename = params['servicename']
+    @recentnamespace = params['namespace']
+    @recentversion = params['version']
+    response = HTTParty.get(
+      "#{ENV['REUNI_HOST']}/services/#{@recentservicename}/#{@recentnamespace}/#{@recentversion}",
+      headers: {
+        'Authorization' => "Bearer #{cookies[:token]}"
+      }
+    )
+    @recentconfigs = JSON.parse(response.body)
+    @recentconfigkeys = @recentconfigs['configuration'].keys
+    @recentconfigvalues = @recentconfigs['configuration'].values  
+  end
+
+  def store_configuration_update
+    @result = HTTParty.post(
+      "#{ENV['REUNI_HOST']}/services/#{params['servicename']}/#{params['namespace']}",
+      body: {
+        configuration: params['configurations']
+      }.to_json,
+      headers: {
+        'Content-Type' => 'application/json',
+        'Authorization' => "Bearer #{cookies[:token]}"
+      }
+    )
+  end
 end
+

@@ -1,0 +1,142 @@
+<%= csrf_meta_tag %>
+<div class="containter">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h3>Update configuration for <%= @recentnamespace %> version <%= @recentversion %></h3>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-2 col-md-offset-2">
+        <button class="btn btn-info" id="add-more">Add New Key +</button>
+      </div>
+    </div>
+    <br>
+
+    <div class="row" id="key-value-data">
+    <% for i in 0..@recentconfigkeys.length-1%>
+            <div id="keyform-<%=i%>" class="col-md-4 col-md-offset-2">
+                <div class="form-group">
+                <% if i == 0 %>
+                    <label for="key">KEY</label>
+                <% end %>
+                <input type="text" id="key-<%=i%>" class="form-control key" name="key" value="<%=@recentconfigkeys[i]%>">
+                </div>
+            </div>
+            <div id="valueform-<%=i%>" class="col-md-4">
+                <div class="form-group">
+                <% if i == 0 %>
+                    <label for="value">VALUE</label>
+                <% end %>
+                <input type="text" id="value-<%=i%>" class="form-control value" name="value" value="<%=@recentconfigvalues[i]%>">
+                </div>
+            </div>
+            <% if i != 0 %>
+                <div id="removeform-<%=i%>" class="col-md-2">
+                    <% if i == 0 %>
+                        <label></label>
+                    <% end %>
+                    <div class="form-group">
+                    <button id="remove-<%=i%>" class="btn btn-danger remove-key"> X </button>
+                    </div>
+                </div>
+            <% end %>
+    <% end %>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-md-offset-2">
+        <div class="form-group">
+          <button class="btn btn-success col-md-4" id="save-config-button">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    var index = document.querySelectorAll('.key').length;
+    $("#add-more").click(function(e) {
+      $("#key-value-data").append(`
+        <div id="keyform-${index}" class="col-md-4 col-md-offset-2">
+          <div class="form-group">
+            <input type="text" id="key-${index}" class="form-control key" name="key" placeholder="New key...">
+          </div>
+        </div>
+        <div id="valueform-${index}" class="col-md-4">
+          <div class="form-group">
+            <input type="text" id="value-${index}" class="form-control value" name="value" placeholder="New value...">
+          </div>
+        </div>
+        <div id="removeform-${index}" class="col-md-2">
+          <div class="form-group">
+            <button id="remove-${index}" class="btn btn-danger remove-key"> X </button>
+          </div>
+        </div>
+      `)
+      index = index+1
+        $(".remove-key").click(function(e) {
+            var fieldNum = this.id.charAt(this.id.length-1)
+            console.log(fieldNum)
+            $(this).remove()
+            $(`#removeform-${fieldNum}`).remove()
+            $(`#keyform-${fieldNum}`).remove()
+            $(`#valueform-${fieldNum}`).remove()
+        })
+    });
+
+    $(".remove-key").click(function(e) {
+        var fieldNum = this.id.charAt(this.id.length-1)
+        console.log(fieldNum)
+        $(this).remove()
+        $(`#removeform-${fieldNum}`).remove()
+        $(`#keyform-${fieldNum}`).remove()
+        $(`#valueform-${fieldNum}`).remove()
+    })
+
+    $("#save-config-button").click(function(e) {
+      let keys = document.querySelectorAll('.key')
+      let values = document.querySelectorAll('.value')
+      let arrKeys = parseNodeList(keys)
+      let arrValues = parseNodeList(values)
+      let jsonConfigs = {}
+
+      for (let i = 0; i < arrKeys.length; i++) {
+        jsonConfigs[arrKeys[i]] = arrValues[i]
+      }
+
+      var arrServiceName = window.location.pathname.split( '/' );
+      var servicename = arrServiceName[3]
+      var namespace = arrServiceName[4] 
+        
+      axios({
+        method: 'post',
+        url: '/namespace/update',
+        data: {
+          servicename: servicename,
+          namespace: namespace,
+          configurations: jsonConfigs
+        },
+        headers: {
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
+          'Content-Type': 'application/json'
+        }
+      }).then(() => {
+        alert('Changes saved')
+        window.location.replace(`http://localhost:3000/namespace/${servicename}`);  
+      });
+    })
+
+    function parseNodeList(nodeName) {
+      let arrReturn = []
+      nodeName.forEach.call(nodeName, function(node) {
+        arrReturn.push(node.value)
+      })
+
+      return arrReturn
+    }
+  });
+
+</script>
