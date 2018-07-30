@@ -1,6 +1,18 @@
 <div class="container">
   <div class="row">
     <div class="col-md-offset-1">
+      <h4>Authorization Token</h4>
+      <div class="col-md-8">
+        <input type="text" class="form-control" id="service_token" value=<%= @token["token"] %> readonly=readonly>
+      </div>
+      <div class="col-md-2">
+              <button class="btn btn-primary" onclick="copyFunc('service_token')"> Copy</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-offset-1">
+      <h4>Namespaces</h4>
       <a href="/namespace/<%= @servicename %>/new" class="btn btn-info" style="text-decoration:none;">
         Add new namespace +
       </a>

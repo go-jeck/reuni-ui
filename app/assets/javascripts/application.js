@@ -13,3 +13,11 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
+
+function copyFunc(name) {
+
+  var copyText = document.getElementById(name);
+  copyText.select();
+  var ret = document.execCommand("copy");
+  console.log(ret)
+}
