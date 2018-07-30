@@ -13,7 +13,7 @@ class NamespacesController < ApplicationController
     response = HTTParty.get(
       "#{ENV['REUNI_HOST']}/services/#{@servicename}/namespaces",
       headers: {
-        'Authorization' => "Bearer #{session['current_user_token']}"
+        'Authorization' => "Bearer #{cookies[:token]}"
       }
     )
     @namespaces = JSON.parse(response.body)
@@ -30,7 +30,7 @@ class NamespacesController < ApplicationController
       }.to_json,
       headers: {
         'Content-Type' => 'application/json',
-        'Authorization' => "Bearer #{session['current_user_token']}"
+        'Authorization' => "Bearer #{cookies[:token]}"
       }
     )
   end

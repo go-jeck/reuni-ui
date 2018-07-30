@@ -25,8 +25,11 @@ class LoginsController < ApplicationController
     @userdata = JSON.parse(response.body)
 
     if @userdata['token']
-      session[:current_user_username] = params['username']
-      session[:current_user_token] = @userdata['token']
+      cookies[:username] = params["username"]
+      cookies[:token] = {
+        value: @userdata["token"],
+        expires: 1.hour,
+      }
       redirect_to dashboard_user_path
     else 
       redirect_to root_path
@@ -34,7 +37,8 @@ class LoginsController < ApplicationController
   end
 
   def logout
-    reset_session
+    cookies.delete :username
+    cookies.delete :token
     redirect_to root_path
   end
 end

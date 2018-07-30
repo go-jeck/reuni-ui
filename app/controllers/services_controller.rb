@@ -10,7 +10,7 @@ class ServicesController < ApplicationController
     response = HTTParty.get(
       "#{ENV['REUNI_HOST']}/services",
       :headers => {
-        "Authorization" => "Bearer #{session["current_user_token"]}",
+        "Authorization" => "Bearer #{cookies[:token]}",
         "Content-Type" => "application/json"
       }
     )
@@ -26,7 +26,7 @@ class ServicesController < ApplicationController
       }.to_json,
       :headers => { 
         "Content-Type" => "application/json",
-        "Authorization" => "Bearer #{session["current_user_token"]}"
+        "Authorization" => "Bearer #{cookies[:token]}"
       }
     )
   end
