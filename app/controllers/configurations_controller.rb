@@ -11,7 +11,10 @@ class ConfigurationsController < ApplicationController
     @namespace = params['namespace']
     @version = params['version']
     response = HTTParty.get(
-      "#{ENV['REUNI_HOST']}/services/#{@servicename}/#{@namespace}/#{@version}"
+      "#{ENV['REUNI_HOST']}/services/#{@servicename}/#{@namespace}/#{@version}",
+      headers: {
+        'Authorization' => "Bearer #{cookies[:token]}"
+      }
     )
     @configs = JSON.parse(response.body)
     @configkeys = @configs['configuration'].keys
