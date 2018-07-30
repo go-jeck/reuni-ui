@@ -41,4 +41,5 @@ class NamespacesController < ApplicationController
       }
     )
   end
+
 end

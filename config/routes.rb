@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'logins#login_user'
 
   post 'login/verifyuser' => 'logins#verify_login_user'
-  get 'logout' => 'logins#logout'
+  get 'logout' => 'dashboards#logout'
 
   get 'dashboard/user' => 'dashboards#user_dashboard'
 
