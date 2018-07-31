@@ -3,7 +3,19 @@
   <div class="row justify-content-center">
     <div class="col-md-10 offset-md-1">
       <div class="row">
-        <h4 class="col-md-5 offset-md-1"> Version : <%= @version %> </h4>
+        <h4 class="col-md-5 offset-md-1 row"> 
+          Version : &nbsp;
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= @version%>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </div>
+        </h4>
         <div class="col-md-4  text-right">
           <a href="/namespace/edit/<%=@servicename%>/<%= @namespace%>/<%= @version%>" 
           class="btn btn-success">
