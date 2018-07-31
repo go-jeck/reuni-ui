@@ -10,9 +10,9 @@
               <%= @version%>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <% for i in @versions["versions"]%>
+                <a class="dropdown-item" href="/namespace/<%=@servicename%>/<%=@namespace%>/<%=i%>"><%=i%></a>
+              <%end%>
             </div>
           </div>
         </h4>
