@@ -1,5 +1,4 @@
 class ServicesController < ApplicationController
-  include ApplicationHelper
   before_action :require_loggedin
 
   def new_service

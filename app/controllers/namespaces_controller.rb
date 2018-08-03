@@ -3,7 +3,6 @@
 require 'httparty'
 
 class NamespacesController < ApplicationController
-  include ApplicationHelper
   before_action :require_loggedin
 
   def index; end
