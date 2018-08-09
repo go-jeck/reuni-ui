@@ -13,8 +13,11 @@ class ServicesController < ApplicationController
         "Content-Type" => "application/json"
       }
     )
-
-    @services = JSON.parse(response.body)
+    if response.to_s != "null"
+      @services = JSON.parse(response.body)
+    else
+      @services = Array.new
+    end
   end
 
   def store_new_service
