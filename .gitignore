@@ -23,3 +23,5 @@
 /config/master.key
 
 rails.env
+.idea
+.DS_STORE

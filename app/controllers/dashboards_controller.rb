@@ -3,7 +3,9 @@
 class DashboardsController < ApplicationController
   before_action :require_loggedin
 
-  def user_dashboard; end
+  def index
+    @test = 123
+  end
 
   def logout
     cookies.delete :username

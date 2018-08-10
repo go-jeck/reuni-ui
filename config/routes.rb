@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   post 'login/verifyuser' => 'logins#verify_login_user'
   get 'logout' => 'dashboards#logout'
 
-  get 'dashboard/user' => 'dashboards#user_dashboard'
+  get 'dashboard/user' => 'dashboards#index'
 
   get 'service' => 'services#service_list'
   get 'service/new' => 'services#new_service'
