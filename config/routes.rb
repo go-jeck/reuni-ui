@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'logins#login_user'
+  get 'signup' => 'logins#signup'
 
+  post 'signup/new' => 'logins#create_new_user' 
+
+  get 'login' => 'logins#login_user'
   post 'login/verifyuser' => 'logins#verify_login_user'
   get 'logout' => 'dashboards#logout'
 

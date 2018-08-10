@@ -36,4 +36,26 @@ class LoginsController < ApplicationController
       redirect_to root_path
     end
   end
+
+  def signup
+
+  end
+
+  def create_new_user
+    puts params["name"]
+    puts params["username"]
+    response = HTTParty.post(
+      "#{ENV["REUNI_HOST"]}/signup",
+      :body => {
+        :name => params['name'],
+        :username => params['username'],
+        :password => params['password'],
+        :email => params['email']
+      }.to_json,
+      :headers => {
+        'Content-Type' => 'application/json'
+      }
+    )
+    redirect_to login_path
+  end
 end
