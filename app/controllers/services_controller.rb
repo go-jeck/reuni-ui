@@ -6,8 +6,9 @@ class ServicesController < ApplicationController
   end
 
   def service_list
+    @org = params['organization']
     response = HTTParty.get(
-      "#{ENV['REUNI_HOST']}/services",
+    "#{ENV['REUNI_HOST']}/#{@org}/services",
       :headers => {
         "Authorization" => "Bearer #{cookies[:token]}",
         "Content-Type" => "application/json"
