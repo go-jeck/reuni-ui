@@ -4,7 +4,7 @@ class DashboardsController < ApplicationController
   before_action :require_loggedin
 
   def index
-    @test = 123
+
   end
 
   def logout

@@ -17,5 +17,7 @@ Rails.application.routes.draw do
   get 'namespace/:servicename' => 'namespaces#namespace_list'
   post 'namespace/new' => 'namespaces#store_new_namespace'
   post 'namespace/update' => 'configurations#store_configuration_update'
-
+  get 'organization' => 'organization#index'
+  get 'organization/create' => 'organization#create'
+  post 'organization/create' => 'organization#save'
 end
