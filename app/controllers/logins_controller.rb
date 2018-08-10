@@ -31,7 +31,7 @@ class LoginsController < ApplicationController
         value: @userdata["token"],
         expires: 1.hour,
       }
-      redirect_to dashboard_user_path
+      redirect_to root_path
     else 
       redirect_to root_path
     end

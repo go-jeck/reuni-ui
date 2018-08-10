@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'logins#login_user'
   get 'signup' => 'logins#signup'
 
-  post 'signup/new' => 'logins#create_new_user' 
+  post 'signup/new' => 'logins#create_new_user'
 
   get 'login' => 'logins#login_user'
   post 'login/verifyuser' => 'logins#verify_login_user'
@@ -23,5 +23,5 @@ Rails.application.routes.draw do
   post 'namespace/update' => 'configurations#store_configuration_update'
   get 'organization' => 'organization#index'
   get 'organization/create' => 'organization#create'
-  post 'organization/create' => 'organization#save'
+  post 'organization/create' => 'organization#store'
 end

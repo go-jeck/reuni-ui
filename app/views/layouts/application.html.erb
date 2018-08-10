@@ -1,46 +1,55 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <title>ReuniUi</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
+    <%= csp_meta_tag %>
 
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Re:uni</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.8/css/mdb.min.css" rel="stylesheet">
+    <link rel="icon" href="<%=image_url('favicon.png') %>">
   </head>
 
   <body>
   <% if cookies[:token]%>
-  <nav class="navbar navbar-default navbar-expand-sm" style="background-color: #008000">
-    <div class="container-fluid" style="background-color:#008000">
-      <a class="navbar-brand" style="color: #ffffff;" href="#">Re-Uni</a>
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a href="/service" class="nav-link" style="color: #ffffff;" onMouseOver="this.style.color='#000000'"
-          onMouseOut="this.style.color='#ffffff'">
-          Service
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="/logout" class="nav-link" style="color: #ffffff;" onMouseOver="this.style.color='#000000'"
-          onMouseOut="this.style.color='#ffffff'">
-          Logout
-          </a>
-        </li>
-      </ul>
+  <nav class="navbar navbar-default navbar-expand-sm">
+    <div class="container-fluid justify-content-center">
+      <div class="row justify-content-center">
+        <a class="navbar-brand d-flex align-items-center text-white" href="/">
+            <img src=<%=image_url('reuni-decolored.png') %> alt="" class="logo">
+            Re:uni
+        </a>
+        <button class="navbar-toggler text-white" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="#main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="main-navbar">
+        <div class="dropdown ml-auto">
+          <div class="text-white cursor-pointer dropdown-toggle ml-auto" data-toggle="dropdown">
+            <%= cookies[:username] %>
+          </div>
+          <div class="dropdown-menu dropdown-menu-right dropdown-secondary ">
+            <a class="dropdown-item" href="/logout">Logout</a>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
   <% end %>
   <%= yield %>
   </body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.8/js/mdb.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   
 </html>

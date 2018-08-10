@@ -1,19 +1,21 @@
-<h3 class="text-center">
-  Create New Organization
-</h3>
-<div class="col-md-6 offset-md-3">
-  <form action="/organization/create" method="post">
-    <% if @error %>
-      <div class="alert alert-danger">
-        <%= @error %>
-      </div>
+<div class="container">
+  <h3 class="text-center">
+    Create New Organization
+  </h3>
+  <div class="col-md-6 offset-md-3">
+    <form action="/organization/create" method="post">
+      <% if @error %>
+        <div class="alert alert-danger">
+          <%= @error %>
+        </div>
 
-    <% end %>
-    <p><input type="hidden" name="authenticity_token" value="<%form_authenticity_token %>" ></p>
-    <input type="text" class="form-control text-center" name="organization_name" placeholder="Organization Name">
-    <br>
-    <button type="submit" class="form-control  col-md-4 offset-md-4 btn btn-success">
-        Submit
-    </button>
-  </form>
+      <% end %>
+      <p><input type="hidden" name="authenticity_token" value="<%form_authenticity_token %>" ></p>
+      <input type="text" class="form-control text-center" name="organization_name" placeholder="Organization Name">
+      <br>
+      <button type="submit" class="form-control  col-md-4 offset-md-4 btn btn-success">
+          Submit
+      </button>
+    </form>
+  </div>
 </div>

@@ -17,3 +17,26 @@
  .text-center {
      text-align: center;
  }
+
+
+.navbar-brand {
+    margin-right: 0!important;
+}
+
+.navbar-toggler{
+    position: absolute;
+    right: 10px;
+    top:10px;
+}
+* {
+    transition: 0.3s ease-in-outs;
+}
+.navbar .navbar-toggler-icon {
+    background-image: url('https://mdbootstrap.com/img/svg/hamburger3.svg?color=FFFFFF');
+    background-size: 20px;
+    align-self: center;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

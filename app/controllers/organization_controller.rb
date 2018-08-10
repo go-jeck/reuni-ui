@@ -1,4 +1,6 @@
 class OrganizationController < ApplicationController
+  before_action :require_loggedin
+
   def index
     response = HTTParty.get(
         "#{ENV["REUNI_HOST"]}/organization",
@@ -12,7 +14,7 @@ class OrganizationController < ApplicationController
   def create
 
   end
-  def save
+  def store
     response = HTTParty.post(
         "#{ENV["REUNI_HOST"]}/organization",
         :body => {
