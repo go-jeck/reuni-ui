@@ -1,15 +1,15 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root 'logins#login_user'
-  get 'signup' => 'logins#signup'
+  root 'dashboard#index'
+  get 'signup' => 'login#signup'
 
-  post 'signup/new' => 'logins#create_new_user'
+  post 'signup/new' => 'login#create_new_user'
 
-  get 'login' => 'logins#login_user'
-  post 'login/verifyuser' => 'logins#verify_login_user'
-  get 'logout' => 'dashboards#logout'
+  get 'login' => 'login#login_user'
+  post 'login/verifyuser' => 'login#verify_login_user'
+  get 'logout' => 'login#logout'
 
-  get 'dashboard/user' => 'dashboards#index'
+  get 'dashboard/user' => 'dashboard#index'
 
   get ':organization/services' => 'services#service_list'
   get ':organization/services/new' => 'services#new_service'

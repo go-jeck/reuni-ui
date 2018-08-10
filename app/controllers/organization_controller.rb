@@ -1,16 +1,12 @@
 class OrganizationController < ApplicationController
-  before_action :require_loggedin
+  include ApplicationHelper
+  before_action :require_loggedin, :get_organizations
 
   def index
-    response = HTTParty.get(
-        "#{ENV["REUNI_HOST"]}/organization",
-        :headers => {
-            'Content-Type' => 'application/json',
-            'Authorization' => "Bearer #{cookies[:token]}"
-        }
-    )
-    @data = JSON.parse(response.body)
+    response = send_get("/organization")
+    @organization = JSON.parse(response.body)
   end
+
   def create
 
   end

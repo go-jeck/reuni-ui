@@ -3,7 +3,7 @@
 require 'httparty'
 
 class ConfigurationsController < ApplicationController
-  before_action :require_loggedin
+  before_action :require_loggedin,:get_organizations
 
   def configuration_list
     @servicename = params['servicename']

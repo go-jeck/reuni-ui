@@ -1,5 +1,5 @@
 class ServicesController < ApplicationController
-  before_action :require_loggedin
+  before_action :require_loggedin,:get_organizations
 
   def new_service
     

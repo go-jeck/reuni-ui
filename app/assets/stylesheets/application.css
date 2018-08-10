@@ -40,3 +40,32 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+.navbar {
+    margin-bottom: 15px;
+}
+
+.sidebar {
+    border-right: 1px solid #00A000;
+}
+
+.navbar-brand img {
+    width: 30px;
+}
+
+
+
+.color-disabled {
+    filter: grayscale(1);
+    opacity: 0.5;
+}
+
+a {
+    text-decoration:  none!important;
+    color: inherit;
+}
+
+.list-group-item.active {
+    background: #00C851 !important;
+    border-color: #00C851 !important;
+}

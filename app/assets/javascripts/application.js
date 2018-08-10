@@ -21,3 +21,8 @@ function copyFunc(name) {
   var ret = document.execCommand("copy");
   console.log(ret)
 }
+
+
+function redirect(to) {
+    window.location = to
+}

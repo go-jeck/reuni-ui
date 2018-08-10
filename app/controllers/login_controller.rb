@@ -1,9 +1,8 @@
 require "httparty"
 
-class LoginsController < ApplicationController
-  skip_before_action :verify_authenticity_token
-  before_action :check_token
-  
+class LoginController < ApplicationController
+  before_action :check_token, except: :logout
+  layout 'login'
   def login_admin
 
   end
@@ -33,7 +32,7 @@ class LoginsController < ApplicationController
       }
       redirect_to root_path
     else 
-      redirect_to root_path
+      redirect_to login_path
     end
   end
 
@@ -57,5 +56,11 @@ class LoginsController < ApplicationController
       }
     )
     redirect_to login_path
+  end
+
+  def logout
+    cookies.delete :username
+    cookies.delete :token
+    redirect_to '/login'
   end
 end

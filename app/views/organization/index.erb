@@ -12,16 +12,18 @@
       </thead>
 
       <tbody>
-      <% @data.each do |org|%>
-        <tr>
-          <td><%= org["name"] %></td>
-          <td><%= org["role"] %></td>
-          <td>
-            <a href="/<%=org["name"]%>/services/">
-              View Configs
-            </a>
-          </td>
-        </tr>
+      <% if @data %>
+        <% @data.each do |org|%>
+          <tr>
+            <td><%= org["name"] %></td>
+            <td><%= org["role"] %></td>
+            <td>
+              <a href="/<%=org["name"]%>/services/">
+                View Configs
+              </a>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
       </tbody>
     </table>

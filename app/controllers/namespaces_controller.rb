@@ -3,7 +3,7 @@
 require 'httparty'
 
 class NamespacesController < ApplicationController
-  before_action :require_loggedin
+  before_action :require_loggedin,:get_organizations
 
   def index; end
 
