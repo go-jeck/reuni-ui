@@ -70,3 +70,7 @@ a {
     border-color: #00C851 !important;
     color: white !important;
 }
+
+.color-danger {
+    color: #C00000;
+}

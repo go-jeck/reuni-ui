@@ -1,0 +1,51 @@
+<div id="configuration-editor">
+  <input type="hidden" name="configuration" v-model="processData()">
+  <div v-for="i in counter">
+    <div class="form-row md-form mb-0 mt-0">
+      <div class="col-3">
+      <input type="text" class="form-control" v-model="configuration[i-1].key" placeholder="Key" required>
+      </div>
+      <div class="col-6">
+        <input type="text" class="form-control" v-model="configuration[i-1].value" placeholder="Values" required>
+      </div>
+      <div class="d-flex align-items-center">
+        <div v-on:click="decrement(i-1)" class="cursor-pointer color-danger"><i class="fa fa-trash"></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <button class="btn btn-info btn-sm" type="button" v-on:click="increment()"><i class="fa fa-plus-circle"></i> Add</button>
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+  var configuration_editor = new Vue({
+      el: "#configuration-editor",
+      data: {
+        configuration: [{}],
+        counter: 1,
+      },
+      methods: {
+          processData: function () {
+              var ret = {}
+              for (var i = 0; i < this.configuration.length; i++) {
+                  ret[this.configuration[i].key] = this.configuration[i].value
+              }
+              return JSON.stringify(ret)
+          },
+          increment: function () {
+              this.counter += 1
+              this.configuration.push({})
+          },
+          decrement: function (i) {
+            this.counter -= 1
+              this.configuration.splice(i,1)
+          }
+      }
+
+  })
+</script>

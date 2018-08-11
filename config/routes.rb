@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   get ':organization/services' => 'services#index'
   get ':organization/services/new' => 'services#create'
-  post ':organization/services/new' => 'services#store_new_service'
+  post ':organization/services/new' => 'services#store'
 
   get 'namespace/edit/:servicename/:namespace/:version' => 'configurations#configuration_update'
   get 'namespace/:servicename/new' => 'namespaces#new_namespace'
