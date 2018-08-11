@@ -1,58 +1,64 @@
-
-<div class="container">
-  <br>
-  <div class="row justify-content-center">
-    <div class="col-md-10">
-      <h4>Authorization Token</h4>
-      <div class="row align-items-center">
-        <div class="col-md-9">
-          <input type="text" class="form-control" id="service_token" value="<%= @token["authorization_token"] %>" readonly=readonly>
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-primary btn-sm" onclick="copyFunc('service_token')"> Copy</button>
-        </div>
-      </div>
-    </div>
+<div class="row" id="app">
+  <div class="col-md-3 sidebar">
+    <%= render :partial => 'shared/services'%>
   </div>
-  <br>
-  <div class="row">
-    <div class="col-md-12">
+  <div class="col-md-9">
+    <div class="container">
+      <br>
       <div class="row justify-content-center">
-        <h4 class="col-md-6 justify-content-left">Namespaces</h4>
-        <div class="col-md-4 justify-content-right text-right">
-          <a href="/namespace/<%= @servicename %>/new" class="btn btn-info" style="text-decoration:none;">
-            Add new namespace +
-          </a>
+        <div class="col-md-10">
+          <h4>Authorization Token</h4>
+          <div class="row align-items-center">
+            <div class="col-md-9">
+              <input type="text" class="form-control" id="service_token" value="<%= @token["authorization_token"] %>" readonly=readonly>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary btn-sm" onclick="copyFunc('service_token')"> Copy</button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <br>
-  <div class="row justify-content-center">
-    <div class="col-md-10">
-      <table class="table table-hover text-center">
-        <thead>
-        <th>Namespaces</th>
-        <th>Version</th>
-        <th>Action</th>
-        </thead>
-
-        <tbody>
-        <% if @namespaces %>
-        <% @namespaces.each do |namespace|%>
-          <tr>
-            <td><%= namespace["namespace"] %></td>
-            <td><%= namespace["version"] %></td>
-            <td>
-              <a href="/namespace/<%=@servicename%>/<%=namespace["namespace"]%>/<%= namespace["version"]%>">
-                View Configs
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row justify-content-center">
+            <h4 class="col-md-6 justify-content-left">Namespaces</h4>
+            <div class="col-md-4 justify-content-right text-right">
+              <a href="/namespace/<%= @servicename %>/new" class="btn btn-info" style="text-decoration:none;">
+                Add new namespace +
               </a>
-            </td>
-          </tr>
-        <% end %>
-          <% end %>
-        </tbody>
-      </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row justify-content-center">
+        <div class="col-md-10">
+          <table class="table table-hover text-center">
+            <thead>
+            <th>Namespaces</th>
+            <th>Version</th>
+            <th>Action</th>
+            </thead>
+
+            <tbody>
+            <% if @namespaces %>
+            <% @namespaces.each do |namespace|%>
+              <tr>
+                <td><%= namespace["namespace"] %></td>
+                <td><%= namespace["version"] %></td>
+                <td>
+                  <a href="/namespace/<%=@servicename%>/<%=namespace["namespace"]%>/<%= namespace["version"]%>">
+                    View Configs
+                  </a>
+                </td>
+              </tr>
+            <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -16,4 +16,9 @@ class ApplicationController < ActionController::Base
     response = send_get("/organization")
     @organizations = JSON.parse(response.body)
   end
+
+  def get_services
+    response = send_get("/#{params["organization"]}/services")
+    @services = JSON.parse(response.body)
+  end
 end

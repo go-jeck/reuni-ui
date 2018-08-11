@@ -74,3 +74,9 @@ a {
 .color-danger {
     color: #C00000;
 }
+.back-button {
+    position: absolute;
+    left: 30px;
+    color: #00C851 !important;
+
+}

@@ -3,7 +3,7 @@
 require 'httparty'
 
 class NamespaceController < ApplicationController
-  before_action :require_loggedin,:get_organizations
+  before_action :require_loggedin,:get_services
 
   def index
     @servicename = params['service']
