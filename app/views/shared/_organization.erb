@@ -1,9 +1,9 @@
 <div class="container-fluid" id="sidebar" v-app="sidebar">
     <h4 class="text-center">Organizations</h4>
-    <ul class="list-group">
+    <div class="list-group">
       <% if @organizations %>
         <% @organizations.each do |org|%>
-            <li class="list-group-item <%=params["organization"]==org["name"] ? "active" : "" %> cursor-pointer d-flex justify-content-between align-items-center" onclick=redirect("/<%=org["name"]%>/services/")>
+            <a class="list-group-item list-group-item-action waves-effect <%=params["organization"]==org["name"] ? "active" : "" %> d-flex justify-content-between align-items-center" onclick=redirect("/<%=org["name"]%>/services/")>
               <%= org["name"]%>
               <% case org["role"] %>
                 <% when "Admin" %>
@@ -13,7 +13,7 @@
                 <% when "Auditor" %>
                   <i class="flaticon-settings-gears"></i>
               <% end %>
-            </li>
+            </a>
         <% end %>
       <% else %>
         <div class="d-flex flex-column color-disabled justify-content-center align-items-center">
@@ -21,7 +21,7 @@
           No Data
         </div>
       <% end %>
-    </ul>
+    </div>
     <div class="row justify-content-center">
       <a href="<%= organization_create_url %>">
         <button class="btn btn-success btn-sm"> <i class="fa fa-plus-circle"></i> New</button>

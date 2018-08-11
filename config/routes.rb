@@ -11,8 +11,8 @@ Rails.application.routes.draw do
 
   get 'dashboard/user' => 'dashboard#index'
 
-  get ':organization/services' => 'services#service_list'
-  get ':organization/services/new' => 'services#new_service'
+  get ':organization/services' => 'services#index'
+  get ':organization/services/new' => 'services#create'
   post ':organization/services/new' => 'services#store_new_service'
 
   get 'namespace/edit/:servicename/:namespace/:version' => 'configurations#configuration_update'

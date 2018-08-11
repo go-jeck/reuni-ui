@@ -1,56 +1,60 @@
-<div class="containter">
-  <div class="col-md-12">
-    <div class="row">
-      <div class="col-md-8 offset-md-2">
-        <div class="form-group">
-          <label for="namespace"><strong>SERVICE</strong></label>
-          <input type="text" class="form-control" id="service-name" placeholder="New service name...">
+<form method="post">
+  <p><input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" ></p>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label for="namespace"><strong>Service Name</strong></label>
+            <input type="text" class="form-control" id="service-name" placeholder="New service name...">
+          </div>
         </div>
       </div>
-    </div>
-    <hr>
-    <div class="row">
-      <div class="col-md-6 offset-md-2">
-        <strong>When creating new service, you'll require to add default configurations</strong>
-      </div>
-    </div>
-    <hr>        
-    <div class="row">
-      <div class="col-md-2 offset-md-2">
-        <button class="btn btn-info" id="add-more">Add New Default Key +</button>
-      </div>
-    </div>
-    <br>
-    <div class="row" id="key-value-data">
-      <div class="col-md-4 offset-md-2">
-        <div class="form-group">
-          <label for="key">KEY</label>
-          <input type="text" id="key-1" class="form-control key" name="key" placeholder="New key...">
+      <hr>
+      <div class="row">
+        <div class="col-md-6">
+          <strong>Default Configuration</strong>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="form-group">
-          <label for="value">VALUE</label>
-          <input type="text" id="value-1" class="form-control value" name="value" placeholder="New value...">
+      <hr>
+      <br>
+      <div class="row" id="key-value-data">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="key">KEY</label>
+            <input type="text" id="key-1" class="form-control key" name="key" placeholder="New key...">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="value">VALUE</label>
+            <input type="text" id="value-1" class="form-control value" name="value" placeholder="New value...">
+          </div>
+        </div>
+        <div class="offset-md-4"></div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <button class="btn btn-info btn-sm" type="button" id="add-more"><i class="fa fa-plus-circle"></i> Add</button>
         </div>
       </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 offset-md-2">
-        <div class="form-group">
-          <button class="btn btn-success col-md-4" id="save-config-button">Save</button>
+      <div class="row justify-content-center">
+          <div class="form-group col-md-4">
+            <button class="btn btn-success btn-sm col-md-4" id="save-config-button">Save</button>
+          </div>
         </div>
       </div>
+
     </div>
   </div>
-</div>
-
+</form>
 <script>
   $(document).ready(function(){
     var index = 2;
     $("#add-more").click(function(e) {
       $("#key-value-data").append(`
-        <div id="keyform-${index}" class="col-md-4 offset-md-2">
+        <div id="keyform-${index}" class="col-md-4">
           <div class="form-group">
             <input type="text" id="key-${index}" class="form-control key" name="key" placeholder="New key...">
           </div>
@@ -62,7 +66,7 @@
         </div>
         <div id="removeform-${index}" class="col-md-2">
           <div class="form-group">
-            <button id="remove-${index}" class="btn btn-danger remove-key"> X </button>
+            <button id="remove-${index}" class="btn btn-sm btn-danger remove-key"> X </button>
           </div>
         </div>
       `)
@@ -126,7 +130,6 @@
       nodeName.forEach.call(nodeName, function(node) {
         arrReturn.push(node.value)
       })
-
       return arrReturn
     }
   });

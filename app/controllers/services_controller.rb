@@ -1,23 +1,21 @@
 class ServicesController < ApplicationController
   before_action :require_loggedin,:get_organizations
-
-  def new_service
+  include_all_helpers
+  def create
     
   end
 
-  def service_list
+  def index
     @org = params['organization']
-    response = HTTParty.get(
-    "#{ENV['REUNI_HOST']}/#{@org}/services",
-      :headers => {
-        "Authorization" => "Bearer #{cookies[:token]}",
-        "Content-Type" => "application/json"
-      }
-    )
-    if response.to_s != "null"
-      @services = JSON.parse(response.body)
+    response = send_get("/#{@org}/services")
+    if response.code == 200
+
+      if response.body != 'null'
+        @services = JSON.parse(response.body)
+      end
+
     else
-      @services = Array.new
+      response response.code
     end
   end
 

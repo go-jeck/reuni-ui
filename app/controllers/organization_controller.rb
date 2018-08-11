@@ -24,7 +24,7 @@ class OrganizationController < ApplicationController
     if response.code == 201
       redirect_to  dashboard_user_path
     else
-      @error = response.body
+      @error = JSON.parse(response.body)
       render "organization/create"
     end
   end

@@ -26,3 +26,7 @@ function copyFunc(name) {
 function redirect(to) {
     window.location = to
 }
+
+$('document').ready(()=> {
+   $("#app").css('min-height', (window.innerHeight - $('nav').outerHeight() - 30))
+})

@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <h3>Services</h3>
+    <div class="list">
+        <% if @services %>
+          <% @services.each do |service|%>
+            <tr>
+              <td><%= service["name"] %></td>
+              <td>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+    </div>
+  </div>
+  <div class="row justify-content-center ">
+    <a href="/<%= @org %>/services/new" class="btn btn-md btn-info d-flex align-items-center" style="text-decoration:none;">
+      <i class="fa fa-plus-circle"></i>&nbsp;New
+    </a>
+  </div>
+</div>

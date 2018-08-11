@@ -68,4 +68,5 @@ a {
 .list-group-item.active {
     background: #00C851 !important;
     border-color: #00C851 !important;
+    color: white !important;
 }
