@@ -1,32 +1,60 @@
 <div class="container" style="margin-top: 100px">
-    <div class="modal-body">
-    <%= form_tag signup_new_path do %>
+    
+</div>
 
-    <div class="form-group has-success has-feedback">
-        <%= text_field_tag "name", "", placeholder: "Name", class: "form-control" %>
-        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-    </div>
+<div class="container" style="margin-top: 100px">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="panel panel-login">
+                <div class="panel-heading">
+                    <div class="row justify-content-center">
+                        <h3 style="color: #008000"><img src="<%= image_path('reuni-logo.png') %>" class="login-logo" alt=""> Re:uni</h3>
+                    </div>
+                    <hr>
+                </div>    
+                <div class="panel-body">
+                    <div class="modal-body">
+                        <%= form_tag signup_new_path do %>
 
-    <div class="form-group has-success has-feedback">
-        <%= text_field_tag "username", "", placeholder: "Username", class: "form-control" %>
-        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-    </div>
+                        <div class="form-group has-success has-feedback">
+                            <%= text_field_tag "name", "", placeholder: "Name", class: "form-control" %>
+                            <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                        </div>
 
-    <div class="form-group has-success has-feedback">
-        <%= password_field_tag "password", "", placeholder: "Password", class: "form-control" %>
-        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-    </div>
+                        <div class="form-group has-success has-feedback">
+                            <%= text_field_tag "username", "", placeholder: "Username", class: "form-control" %>
+                            <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                        </div>
 
-    <div class="form-group has-success has-feedback">
-        <%= email_field_tag "email", "", placeholder: "Email", class: "form-control" %>
-        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-    </div>
+                        <div class="form-group has-success has-feedback">
+                            <%= password_field_tag "password", "", placeholder: "Password", class: "form-control" %>
+                            <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                        </div>
 
-    <div class="modal-footer">
+                        <div class="form-group has-success has-feedback">
+                            <%= email_field_tag "email", "", placeholder: "Email", class: "form-control" %>
+                            <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                        </div>
 
-    <%= submit_tag "Save", data: { confirm: "Are you sure?" } %>
+                        <div class="modal-footer">
 
+                        <%= submit_tag "Sign up now", data: { confirm: "Are you sure?" }, :class=>"form-control btn btn-md btn-success" %>
+
+                            </div>
+                        <% end %> 
+                    </div>
+                </div>
+                <% if @userdata %>
+                    <% @userdata.each do |key,value| %>
+                        <div class="alert alert-<%= key %>"><%= value %></div>
+                    <% end %>
+                <% end %>
+            </div>
         </div>
-    <% end %> 
+        <div class="col-md-6 offset-md-3">
+            <div class="row justify-content-center">
+                <%= link_to "Already have an account? Log in now!", login_path%>
+            </div>
+        </div>
     </div>
 </div>
