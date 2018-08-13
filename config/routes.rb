@@ -16,9 +16,10 @@ Rails.application.routes.draw do
   post ':organization/services/new' => 'services#store'
 
   get ':organization/:service/namespaces' => 'namespace#index'
-
+  get ':organization/:service/namespaces/new' => 'namespace#create'
+  post ':organization/:service/namespaces/new' => 'namespace#store'
   get 'namespace/edit/:servicename/:namespace/:version' => 'configurations#configuration_update'
-  get 'namespace/:servicename/new' => 'namespace#create'
+
   get 'namespace/:servicename/:namespace/:version' => 'configurations#configuration_list'
   get 'namespace/:servicename' => 'namespace#namespace_list'
   post 'namespace/new' => 'namespace#store_new_namespace'

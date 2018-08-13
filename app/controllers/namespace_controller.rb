@@ -19,18 +19,23 @@ class NamespaceController < ApplicationController
 
   def create; end
 
-  def store_new_namespace
-    @result = HTTParty.post(
-      "#{ENV['REUNI_HOST']}/services/#{params['servicename']}/namespace",
+  def store
+    result = HTTParty.post(
+      "#{ENV['REUNI_HOST']}/services/#{params['service']}/namespaces",
       body: {
         namespace: params['namespace'],
-        configurations: params['configurations']
+        configurations: JSON.parse(params['configuration'])
       }.to_json,
       headers: {
         'Content-Type' => 'application/json',
         'Authorization' => "Bearer #{cookies[:token]}"
       }
     )
+    if result.code == 201
+       redirect_to "/#{params["organization"]}/#{params["service"]}/namespaces"
+    else
+      @error = JSON.parse(response.body)
+    end
   end
 
 end
