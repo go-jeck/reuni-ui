@@ -3,9 +3,9 @@
     <%= render :partial => 'shared/services'%>
   </div>
   <div class="col-md-9">
-    <div class="container">
+    <div class="container-fluid">
       <br>
-      <div class="row justify-content-center">
+      <div class="row justify-content-start">
         <div class="col-md-10">
           <h4>Authorization Token</h4>
           <div class="row align-items-center">
@@ -21,43 +21,42 @@
       <br>
       <div class="row">
         <div class="col-md-12">
-          <div class="row justify-content-center">
-            <h4 class="col-md-6 justify-content-left">Namespaces</h4>
-            <div class="col-md-4 justify-content-right text-right">
-              <a href="/namespace/<%= @servicename %>/new" class="btn btn-info" style="text-decoration:none;">
-                Add new namespace +
-              </a>
-            </div>
+          <div class="row justify-content-start">
+            <h4 class="col-md-6 justify-content-start">Namespaces</h4>
           </div>
         </div>
       </div>
       <br>
+        <% if @namespaces.length > 0 %>
+          <% @namespaces.each do |names| %>
+            <div class="card">
+              <div class="card-body">
+                <div class="row justify-content-between ml-4 mr-4">
+                  <div>
+                    <h6 class="card-title d-flex align-items-center mt-auto mb-auto ml-2"><a><%= names["namespace"]%></a></h6>
+                    <a href="/<%= params["organization"]%>/<%= params["service"] %>/<%= names["namespace"] %>" class="btn btn-success btn-sm">Explore</a>
+                  </div>
+                  <div class="text-right">
+                    <small class="color-disabled ">
+                      <span><%= names["created_by"] %> <i class="fa fa-user"></i></span><br>
+                      <span><%= l(Time.parse(names["created_at"]).in_time_zone, :format => :long) %> <i class="fa fa-calendar"></i></span><br>
+                      <span><%= names["version"] %> <i class="fa fa-code-fork"></i></span>
+                    </small>
+                  </div>
+                </div>
+                <div class="d-flex">
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <%else %>
+          <%= render :partial => 'shared/nodata' %>
+        <% end %>
+      </div>
       <div class="row justify-content-center">
-        <div class="col-md-10">
-          <table class="table table-hover text-center">
-            <thead>
-            <th>Namespaces</th>
-            <th>Version</th>
-            <th>Action</th>
-            </thead>
-
-            <tbody>
-            <% if @namespaces %>
-            <% @namespaces.each do |namespace|%>
-              <tr>
-                <td><%= namespace["namespace"] %></td>
-                <td><%= namespace["version"] %></td>
-                <td>
-                  <a href="/namespace/<%=@servicename%>/<%=namespace["namespace"]%>/<%= namespace["version"]%>">
-                    View Configs
-                  </a>
-                </td>
-              </tr>
-            <% end %>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
+        <a href="/namespace/<%= @servicename %>/new" class="btn btn-info btn-sm align-items-center" style="text-decoration:none;">
+          <span class="fa fa-plus-circle"></span> &nbsp;New
+        </a>
       </div>
     </div>
   </div>
