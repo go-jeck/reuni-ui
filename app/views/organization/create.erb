@@ -18,7 +18,7 @@
           <% end %>
           <p><input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" ></p>
           <div class="form-group  d-flex align-items-center">
-            <input type="text" class="form-control " name="organization_name" placeholder="Organization Name">
+            <input type="text" class="form-control " name="organization_name" placeholder="Organization Name" required pattern="^[^.|\s]+$">
             <button type="submit" class="form-control col-md-4 btn btn-success btn-md ml-4 d-flex justify-content-center align-items-center">
               Submit
             </button>
