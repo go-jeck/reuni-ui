@@ -1,0 +1,20 @@
+<div class="container-fluid" id="sidebar" v-app="sidebar">
+  <h4 class="text-center d-flex justify-content-center align-items-center"><a class="back-button" href="/<%= "#{params['organization']}/#{params['service']}/namespaces" %>"><i class=" fa fa-arrow-left"></i></a>Namespaces</h4>
+  <div class="list-group">
+    <% if @namespaces.length > 0 %>
+      <% @namespaces.each do |namespace|%>
+        <a class="list-group-item list-group-item-action waves-effect <%=params["namespace"]==namespace["namespace"] ? "active" : "" %> d-flex justify-content-between align-items-center" href="<%= "/#{params['organization']}/#{params['service']}/#{namespace['namespace']}/#{namespace['version']}"%>">
+
+          <%= namespace['namespace']%>
+        </a>
+      <% end %>
+    <% else %>
+      <%= render :partial => 'shared/nodata' %>
+    <% end %>
+  </div>
+  <div class="row justify-content-center">
+    <a href="<%= "/#{params['organization']}/#{params['service']}/namespaces/new" %>">
+      <button class="btn btn-success btn-sm"> <i class="fa fa-plus-circle"></i> New</button>
+    </a>
+  </div>
+</div>

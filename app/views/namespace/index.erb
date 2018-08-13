@@ -1,6 +1,6 @@
 <div class="row" id="app">
   <div class="col-md-3 sidebar">
-    <%= render :partial => 'shared/services'%>
+    <%= render :partial => 'services/sidebar'%>
   </div>
   <div class="col-md-9">
     <div class="container-fluid">
@@ -34,7 +34,7 @@
                 <div class="row justify-content-between ml-4 mr-4">
                   <div>
                     <h6 class="card-title d-flex align-items-center mt-auto mb-auto ml-2"><a><%= names["namespace"]%></a></h6>
-                    <a href="/<%= params["organization"]%>/<%= params["service"] %>/<%= names["namespace"] %>" class="btn btn-success btn-sm">Explore</a>
+                    <a href="<%= "/#{params['organization']}/#{params['service']}/#{names["namespace"]}/#{names["version"]}" %>" class="btn btn-success btn-sm">Explore</a>
                   </div>
                   <div class="text-right">
                     <small class="color-disabled ">

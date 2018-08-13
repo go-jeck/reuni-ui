@@ -37,7 +37,7 @@ class ServicesController < ApplicationController
           "#{ENV["REUNI_HOST"]}/services/#{params['service_name']}/namespaces",
           :body => {
               :namespace => 'default',
-              :configuration => JSON.parse(params['configuration'])
+              :configurations => JSON.parse(params['configuration'])
           }.to_json,
           :headers => {
               'Content-Type' => 'application/json',

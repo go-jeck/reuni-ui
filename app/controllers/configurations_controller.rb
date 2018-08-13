@@ -3,10 +3,10 @@
 require 'httparty'
 
 class ConfigurationsController < ApplicationController
-  before_action :require_loggedin,:get_organizations
+  before_action :require_loggedin,:get_namespaces
 
-  def configuration_list
-    @servicename = params['servicename']
+  def show
+    @servicename = params['service']
     @namespace = params['namespace']
     @version = params['version']
     verion_list_response = HTTParty.get(
