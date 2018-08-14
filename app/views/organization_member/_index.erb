@@ -1,0 +1,5 @@
+<% if @members %>
+    <% @members.each do |members| %>
+        <li><%= members["username"] %><%= members["role"]%></li>
+    <%end%>
+<%end%>

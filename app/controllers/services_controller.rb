@@ -1,5 +1,5 @@
 class ServicesController < ApplicationController
-  before_action :require_loggedin,:get_organizations
+  before_action :require_loggedin,:get_organizations, :get_members
   include_all_helpers
   def create
     
@@ -17,6 +17,7 @@ class ServicesController < ApplicationController
     else
       response response.code
     end
+    :get_members
   end
 
   def store
