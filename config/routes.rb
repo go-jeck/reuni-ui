@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'dashboard#index'
   get 'signup' => 'login#signup'
-
   post 'signup/new' => 'login#create_new_user'
 
   get 'login' => 'login#login_user'
@@ -11,6 +10,10 @@ Rails.application.routes.draw do
 
   get 'dashboard/user' => 'dashboard#index'
 
+  get 'organization' => 'organization#index'
+  get 'organization/create' => 'organization#create'
+  post 'organization/create' => 'organization#store'
+
   get ':organization/services' => 'services#index'
   get ':organization/services/new' => 'services#create'
   post ':organization/services/new' => 'services#store'
@@ -18,14 +21,11 @@ Rails.application.routes.draw do
   get ':organization/:service/namespaces' => 'namespace#index'
   get ':organization/:service/namespaces/new' => 'namespace#create'
   post ':organization/:service/namespaces/new' => 'namespace#store'
-  get ':organization/:service/:namespace/:version' => 'configurations#show'
-  get 'namespace/edit/:servicename/:namespace/:version' => 'configurations#configuration_update'
 
-  get 'namespace/:servicename/:namespace/:version' => 'configurations#show'
-  get 'namespace/:servicename' => 'namespace#namespace_list'
-  post 'namespace/new' => 'namespace#store_new_namespace'
-  post 'namespace/update' => 'configurations#store_configuration_update'
-  get 'organization' => 'organization#index'
-  get 'organization/create' => 'organization#create'
-  post 'organization/create' => 'organization#store'
+
+  get ':organization/:service/:namespace/:version' => 'configurations#show'
+  get ':organization/:service/:namespace/:version/edit' => 'configurations#configuration_update'
+
+  post ':organization/:service/:namespace/:version/edit/update' => 'configurations#store_configuration_update'
+ 
 end

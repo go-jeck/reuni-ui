@@ -16,13 +16,13 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <% for i in @versions["versions"]%>
-                    <a class="dropdown-item" href="/namespace/<%=@servicename%>/<%=@namespace%>/<%=i%>"><%=i%></a>
+                    <a class="dropdown-item" href="/<%=@organization%>/<%=@servicename%>/<%=@namespace%>/<%=i%>"><%=i%></a>
                   <%end%>
                 </div>
               </div>
             </h4>
             <div class="col-md-4  text-right">
-              <a href="/namespace/edit/<%=@servicename%>/<%= @namespace%>/<%= @version%>"
+              <a href="/<%=@organization%>/<%=@servicename%>/<%= @namespace%>/<%= @version%>/edit"
               class="btn btn-success">
                 Edit
               </a>

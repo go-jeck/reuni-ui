@@ -103,14 +103,19 @@
         jsonConfigs[arrKeys[i]] = arrValues[i]
       }
 
-      var arrServiceName = window.location.pathname.split( '/' );
-      var servicename = arrServiceName[3]
-      var namespace = arrServiceName[4] 
-        
+      var arrServiceName = window.location.pathname.split( '/' )
+      var organization = arrServiceName[1]
+      var servicename = arrServiceName[2]
+      var namespace = arrServiceName[3]
+      var version = arrServiceName[4]
+      
+      var urls = organization+"/"+servicename+"/"+namespace
+  
       axios({
         method: 'post',
-        url: '/namespace/update',
+        url: "/"+urls+"/"+version+"/edit/update",
         data: {
+          organization: organization,
           servicename: servicename,
           namespace: namespace,
           configurations: jsonConfigs
@@ -121,8 +126,11 @@
         }
       }).then(() => {
         alert('Changes saved')
-        window.location.replace(`http://localhost:3000/namespace/${servicename}`);  
-      });
+        window.location.replace(`http://localhost:3000/${urls}/${parseInt(version)+1}`);  
+      }).catch((err) => {
+        console.log(err)
+      })
+      ;
     })
 
     function parseNodeList(nodeName) {

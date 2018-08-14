@@ -7,8 +7,9 @@ class NamespaceController < ApplicationController
 
   def index
     @servicename = params['service']
-    token_response = send_get("/services/#{@servicename}/token")
-    response = send_get("/services/#{@servicename}/namespaces")
+    @organization = params['organization']
+    token_response = send_get("/#{@organization}/#{@servicename}/token")
+    response = send_get("/#{@organization}/#{@servicename}/namespaces")
     if token_response.code == 200
       @token = JSON.parse(token_response.body)
     end
@@ -21,7 +22,7 @@ class NamespaceController < ApplicationController
 
   def store
     result = HTTParty.post(
-      "#{ENV['REUNI_HOST']}/services/#{params['service']}/namespaces",
+      "#{ENV['REUNI_HOST']}/#{params['organization']}/#{params['service']}/namespaces",
       body: {
         namespace: params['namespace'],
         configurations: JSON.parse(params['configuration'])

@@ -34,7 +34,7 @@ class ServicesController < ApplicationController
     )
     if response.code == 201
       response2 = HTTParty.post(
-          "#{ENV["REUNI_HOST"]}/services/#{params['service_name']}/namespaces",
+          "#{ENV["REUNI_HOST"]}/#{@org}/#{params['service_name']}/namespaces",
           :body => {
               :namespace => 'default',
               :configurations => JSON.parse(params['configuration'])
