@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   get 'organization' => 'organization#index'
   get 'organization/create' => 'organization#create'
   post 'organization/create' => 'organization#store'
+  patch ':organization/member' => 'organization_member#update_role'
+  delete ':organization/member' => 'organization_member#delete_member'
+  get ':organization/:namesearch/search' => 'organization_member#index'
 
   get ':organization/services' => 'services#index'
   get ':organization/services/new' => 'services#create'

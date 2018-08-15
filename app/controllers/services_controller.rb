@@ -6,12 +6,18 @@ class ServicesController < ApplicationController
   end
 
   def index
-    @org = params['organization']
-    response = send_get("/#{@org}/services")
+    @org_url = params['organization']
+    response = send_get("/#{@org_url}/services")
     if response.code == 200
 
       if response.body != 'null'
         @services = JSON.parse(response.body)
+        @organizations.each {
+          |org|
+          if org["name"] == @org_url 
+            @role = org["role"]
+          end
+        }
       end
 
     else

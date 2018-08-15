@@ -5,7 +5,7 @@
     <div class="col-md-9">
         <div class="container">
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs nav-justified indigo" role="tablist">
+            <ul class="nav nav-tabs nav-justified green accent-4" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#panel5" role="tab">
                     <i class="fa fa-suitcase"></i> Services</a>
@@ -48,7 +48,7 @@
                         <% end %>
                     </div>
                     <div class="row justify-content-center mt-4">
-                        <a href="/<%= @org %>/services/new" class="btn btn-md btn-info d-flex align-items-center" style="text-decoration:none;">
+                        <a href="/<%= @org %>/services/new" class="btn btn-success btn-md d-flex align-items-center" style="text-decoration:none;">
                             <i class="fa fa-plus-circle"></i>&nbsp;New
                         </a>
                     </div>
@@ -58,7 +58,7 @@
                 <!--Panel 2-->
                 <div class="tab-pane fade" id="panel6" role="tabpanel">
                     <br>
-                    <%= render 'organization_member/index'%>
+                    <%= render :partial => 'organization_member/index'%>
                 </div>
                 <!--/.Panel 2-->
             </div>

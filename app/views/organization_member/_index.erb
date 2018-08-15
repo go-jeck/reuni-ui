@@ -1,5 +1,152 @@
-<% if @members %>
-    <% @members.each do |members| %>
-        <li><%= members["username"] %><%= members["role"]%></li>
-    <%end%>
-<%end%>
+<div class="row align-items-center">
+    <div class="col-sm-10">
+        <form>
+            <input type="text" name="namesearch" id="namesearch" placeholder="Find member">
+        </form>
+    </div>
+    <div class="col-sm-2 justify-content-center">
+        <button id="addnewmember" class="btn btn-info btn-success btn-sm d-flex">Add new member</button>
+    </div>
+</div>
+<br>
+<div class="card green darken-1" style="color:white">
+    <div class="card-body">
+        <div class="row justify-content-between ml-4 mr-4 align-items-center">
+            <div class="col-sm-3">
+                <span align-middle>Full Name</span>
+            </div>
+            <div class="col-sm-3">
+                <span>Username</span>
+
+            </div>
+            <div class="col-sm-3">
+                <span>Role</span>
+            </div>
+            <div class="col-sm-3">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="res">
+</div>
+
+<script>
+$(document).ready(function(){
+     var members = JSON.parse(<%= @members.inspect.html_safe%>);
+    tagAppenderFunc(members)
+
+    $("#namesearch").keyup(function(){
+        var namesearch = $(this).val();
+        var res = []
+        res = members.filter(function (x) {
+            return x.username.includes(namesearch) ||
+            x.name.toLowerCase().includes(namesearch);
+        });
+        tagAppenderFunc(res)
+        $(".editbtn").click(function() {
+            editRole($(this).data().id);
+        });
+        $(".deletebtn").click(function(){
+            deleteMember($(this).data().id);
+        });
+    });
+
+    $(".editbtn").click(function() {
+        editRole($(this).data().id);
+    });
+    $(".deletebtn").click(function(){
+        deleteMember($(this).data().id);
+    });
+});
+
+function editRole(id) {
+    p = $('#rolemember-'+id);
+    oldRole = $('#rolemember-'+id).first().text().trim();
+    $(p).html(`
+        <select id="roleselector-${id}">
+            <option ${(oldRole => {if(oldRole=="Admin") return `selected`})(oldRole)}>Admin</option>
+            <option ${(oldRole => {if(oldRole=="Auditor") return `selected`})(oldRole)}>Auditor</option>
+            <option ${(oldRole => {if(oldRole=="Developer") return `selected`})(oldRole)}>Developer</option>
+        </select>
+    `)
+
+    $('#btndiv-'+id).html(
+        `<button id="savebtn-${id}" data-id="${id}" class="savebtn btn btn-info btn-success btn-sm d-flex float-right">Save</button>`
+    )
+    $(".savebtn").click(function(){        
+        var arrServiceName = window.location.pathname.split( '/' )
+        var organization = arrServiceName[1]
+
+        axios({
+        method: 'patch',
+        url: "/"+organization+"/member",
+        data: {
+            user_id: id,
+            newrole: $('#roleselector-'+id+" option:selected").text()
+        },
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
+            'Content-Type': 'application/json'
+        }
+        }).then(() => {
+        alert('Changes saved')
+        window.location.replace(`http://localhost:3000/${organization}/services`);  
+        }).catch((err) => {
+        console.log(err)
+        });
+    });
+}
+
+function deleteMember(id) {        
+    var arrServiceName = window.location.pathname.split( '/' )
+    var organization = arrServiceName[1]
+  
+      axios({
+        method: 'delete',
+        url: "/"+organization+"/member",
+        data: {
+          user_id: id
+        },
+        headers: {
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
+          'Content-Type': 'application/json'
+        }
+      }).then(() => {
+        alert('Changes saved')
+        window.location.replace(`http://localhost:3000/${organization}/services`);  
+      }).catch((err) => {
+        console.log(err)
+      });
+}
+
+function tagAppenderFunc(data) {
+    var tagAppender = ""
+        data.forEach(element => {
+            tagAppender += `
+            <div class="card">
+                <div class="card-body">
+                    <div class="row justify-content-between ml-4 mr-4 align-items-center">
+                        <div class="col-sm-3">
+                            <span align-middle>${element.name}</span>
+                        </div>
+                        <div class="col-sm-3">
+                            <span>${element.username}</span>
+
+                        </div>
+                        <div class="col-sm-3" id="rolemember-${element.id}">
+                            <span>${element.role}</span>
+                        </div>
+                        <div class="col-sm-3" id="btndiv-${element.id}">
+                            <% if @role == "Admin" %>
+                                <button id="deletebtn-${element.id}" data-id="${element.id}" class="deletebtn btn btn-danger btn-sm d-flex float-right">Delete</button>
+                                <button id="editbtn-${element.id}" data-id="${element.id}" class="editbtn btn btn-info btn-success btn-sm d-flex float-right">Edit</button>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+        $('#res').html(tagAppender)
+}
+</script>

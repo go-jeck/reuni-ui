@@ -28,6 +28,6 @@ class ApplicationController < ActionController::Base
 
   def get_members
     response = send_get("/#{params["organization"]}/member")
-    @members = JSON.parse(response.body)
+    @members = response.body
   end
 end
