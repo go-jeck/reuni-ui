@@ -1,5 +1,5 @@
 class ServicesController < ApplicationController
-  before_action :require_loggedin,:get_organizations, :get_members
+  before_action :require_loggedin,:get_organizations
   include_all_helpers
   def create
     
@@ -7,6 +7,8 @@ class ServicesController < ApplicationController
 
   def index
     @org_url = params['organization']
+    get_members()
+    get_users()
     response = send_get("/#{@org_url}/services")
     if response.code == 200
 
@@ -19,11 +21,9 @@ class ServicesController < ApplicationController
           end
         }
       end
-
     else
       response response.code
     end
-    :get_members
   end
 
   def store

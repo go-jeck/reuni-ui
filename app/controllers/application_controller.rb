@@ -30,4 +30,9 @@ class ApplicationController < ActionController::Base
     response = send_get("/#{params["organization"]}/member")
     @members = response.body
   end
+
+  def get_users
+    response = send_get("/users")
+    @users = response.body
+  end
 end

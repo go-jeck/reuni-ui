@@ -1,14 +1,16 @@
 <div class="row align-items-center">
     <div class="col-sm-10">
-        <form>
-            <input type="text" name="namesearch" id="namesearch" placeholder="Find member">
+        <form class="form-inline md-form">
+            <input type="text" name="namesearch" class="form-control" id="namesearch" placeholder="Find member">
+            <i class="fa fa-search"></i>
         </form>
     </div>
     <div class="col-sm-2 justify-content-center">
-        <button id="addnewmember" class="btn btn-info btn-success btn-sm d-flex">Add new member</button>
+        <% if @role == 'Admin' %>
+            <button id="addnewmember" class="btn btn-info btn-success btn-sm d-flex" data-toggle="modal" data-target="#addmembermodal">Add new member</button>
+        <% end %>
     </div>
 </div>
-<br>
 <div class="card green darken-1" style="color:white">
     <div class="card-body">
         <div class="row justify-content-between ml-4 mr-4 align-items-center">
@@ -28,12 +30,101 @@
     </div>
 </div>
 <div id="res">
-</div>
 
+</div>
+<div class="modal fade" id="addmembermodal" tabindex="-1" role="dialog" aria-labelledby="addMemberModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addmembermodallabel">Add member</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="add-member">
+        <div class="row justify-content-center">
+        <div class="dropdown" id="dd">
+            <form class="form-inline md-form">
+                <div class="col-md-8">
+                    <input type="text" name="addnamesearch" class="form-control" id="addnamesearch" placeholder="Find member" v-model="username" @focus="open = true" @blur="blurring()" autocomplete="off">
+                    <input type="hidden" name="iduserhidden" class="form-control" id="iduserhidden" v-model="id">
+                    <i class="fa fa-search"></i>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" id="roleselectorforadduser">
+                        <option selected>Admin</option>
+                        <option>Auditor</option>
+                        <option>Developer</option>
+                    </select>
+                </div>
+                <div class="dropdown-menu show" id="dm" v-if="open">
+                    <span v-for="x in filterUser()" class="dropdown-item cursor-pointer" v-on:click="setValue(x)"><i class="fa fa-user"></i>&nbsp;{{x['name']}}</span>
+                </div>
+            </form>
+            
+        </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" href="">Add member</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    modalapp = new Vue({
+        el: "#addmembermodal",
+        data: {
+            username: "",
+            id: "",
+            open: false,
+            users: JSON.parse(<%= @users.inspect.html_safe %>)
+        },
+        methods: {
+           filterUser: function() {
+               return this.users.filter((x) => {
+                   return x.username.includes(this.username) || x.name.toLowerCase().includes(this.username.toLowerCase());
+               })
+           },
+           setValue: function(x) {
+               console.log("CALLED")
+               this.username = x.username
+               this.id = x.id
+           },
+           blurring: function() {
+               setTimeout(() => {
+                 this.open = false
+                }, 100);
+
+           }
+        }
+    })
+</script>
 <script>
 $(document).ready(function(){
      var members = JSON.parse(<%= @members.inspect.html_safe%>);
     tagAppenderFunc(members)
+
+    // $("#addnamesearch").keyup(function () {
+    //     var namesearch = $(this).val();
+    //     if (namesearch.length > 0) {
+    //         $("#dd").addClass("open show");
+    //         $("#dm").addClass("show");
+            
+    //         var res = []
+    //         res = members.filter(function (x) {
+    //             return x.username.includes(namesearch) ||
+    //             x.name.toLowerCase().includes(namesearch);
+    //         });
+
+    //         addToDropdown(res);
+    //     } else {
+    //         $("#dd").removeClass("open show");
+    //         $("#dm").removeClass("show");
+
+    //         $("#dm").html('');
+    //     }
+    // });
 
     $("#namesearch").keyup(function(){
         var namesearch = $(this).val();
@@ -63,7 +154,7 @@ function editRole(id) {
     p = $('#rolemember-'+id);
     oldRole = $('#rolemember-'+id).first().text().trim();
     $(p).html(`
-        <select id="roleselector-${id}">
+        <select class="form-control" id="roleselector-${id}">
             <option ${(oldRole => {if(oldRole=="Admin") return `selected`})(oldRole)}>Admin</option>
             <option ${(oldRole => {if(oldRole=="Auditor") return `selected`})(oldRole)}>Auditor</option>
             <option ${(oldRole => {if(oldRole=="Developer") return `selected`})(oldRole)}>Developer</option>
@@ -149,4 +240,17 @@ function tagAppenderFunc(data) {
         });
         $('#res').html(tagAppender)
 }
+// function setValue(id, username) {
+//     $("#addnamesearch").val(username);
+//     $('#iduserhidden').val(id);
+//     $("#dd").removeClass("open show");
+//     $("#dm").removeClass("show");
+// }
+// function addToDropdown(data) {
+//     var menuAppender = ""
+//     data.forEach(element => {
+//         menuAppender += `<span class="dropdown-item" onclick="setValue('${element.id}','${element.username}')"><i class="fa fa-user"></i>${element.name}</span>`
+//     });
+//     $("#dm").html(menuAppender);
+// }
 </script>
