@@ -44,14 +44,14 @@
       <div class="modal-body" id="add-member">
         <div class="row justify-content-center">
         <div class="dropdown" id="dd">
-            <form class="form-inline md-form">
+            <form class="form-inline md-form" id="formaddmember">
                 <div class="col-md-8">
                     <input type="text" name="addnamesearch" class="form-control" id="addnamesearch" placeholder="Find member" v-model="username" @focus="open = true" @blur="blurring()" autocomplete="off">
                     <input type="hidden" name="iduserhidden" class="form-control" id="iduserhidden" v-model="id">
                     <i class="fa fa-search"></i>
                 </div>
                 <div class="col-md-2">
-                    <select class="form-control" id="roleselectorforadduser">
+                    <select class="form-control" id="roleselectorforadduser" name="user_role">
                         <option selected>Admin</option>
                         <option>Auditor</option>
                         <option>Developer</option>
@@ -66,7 +66,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" href="">Add member</button>
+        <button type="button" class="btn btn-primary" v-on:click="addMember()">Add member</button>
       </div>
     </div>
   </div>
@@ -78,13 +78,23 @@
             username: "",
             id: "",
             open: false,
-            users: JSON.parse(<%= @users.inspect.html_safe %>)
+            users: JSON.parse(<%= @users.inspect.html_safe %>),
+            members: JSON.parse(<%= @members.inspect.html_safe%>)
         },
         methods: {
            filterUser: function() {
                return this.users.filter((x) => {
-                   return x.username.includes(this.username) || x.name.toLowerCase().includes(this.username.toLowerCase());
+                   return (x.username.includes(this.username) || x.name.toLowerCase().includes(this.username.toLowerCase())) && !this.isExists(x.username) ;
                })
+           },
+           isExists: function(username) {
+               ret = false
+                this.members.forEach(element => {
+                    if (element.username == username) {
+                        ret = true
+                    }
+                });
+                return ret 
            },
            setValue: function(x) {
                console.log("CALLED")
@@ -95,7 +105,31 @@
                setTimeout(() => {
                  this.open = false
                 }, 100);
+           },
+           addMember: function() {
+               arrServiceName = window.location.pathname.split( '/' )
+               organization = arrServiceName[1]
+               
+               user_id = this.id
+               user_role = $('#roleselectorforadduser option:selected').text()
 
+                axios({
+                    method: 'post',
+                    url: "/"+organization+"/member",
+                    data: {
+                        user_id: user_id,
+                        user_role: user_role
+                    },
+                    headers: {
+                        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json'
+                    }
+                }).then(() => {
+                    alert('Changes saved')
+                    window.location.replace(`http://localhost:3000/${organization}/services`);  
+                }).catch((err) => {
+                    console.log(err)
+                });
            }
         }
     })

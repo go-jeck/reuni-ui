@@ -53,7 +53,18 @@ class OrganizationMemberController < ApplicationController
     return response
   end
 
-  def create
-
+  def add_member
+    response = HTTParty.post(
+      "#{ENV['REUNI_HOST']}/#{params['organization']}/member",
+      body: {
+        user_id: params['user_id'],
+        role: params['user_role']
+      }.to_json,
+      headers: {
+        'Content-Type' => 'application/json',
+        'Authorization' => "Bearer #{cookies[:token]}"
+      }
+    )
+    return response
   end
 end
