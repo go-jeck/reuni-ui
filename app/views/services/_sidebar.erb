@@ -1,5 +1,5 @@
 <div class="container-fluid" id="sidebar" v-app="sidebar">
-  <h4 class="text-center d-flex justify-content-center align-items-center"><a class="back-button" href="/<%= "#{params['organization']}/services" %>"><i class=" fa fa-arrow-left"></i></a> Services</h4>
+  <h4 class="text-center d-flex justify-content-center align-items-center"><a class="back-button" href="/<%= "#{params['organization']}" %>"><i class=" fa fa-arrow-left"></i></a> Services</h4>
     <div class="list-group">
       <% if @services.length > 0 %>
         <% @services.each do |serv|%>

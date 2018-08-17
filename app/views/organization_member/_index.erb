@@ -1,95 +1,129 @@
-<div class="row align-items-center">
-    <div class="col-sm-10">
-        <form class="form-inline md-form">
-            <input type="text" name="namesearch" class="form-control" id="namesearch" placeholder="Find member">
-            <i class="fa fa-search"></i>
-        </form>
-    </div>
-    <div class="col-sm-2 justify-content-center">
-        <% if @role == 'Admin' %>
-            <button id="addnewmember" class="btn btn-info btn-success btn-sm d-flex" data-toggle="modal" data-target="#addmembermodal">Add new member</button>
-        <% end %>
-    </div>
-</div>
-<div class="card green darken-1" style="color:white">
-    <div class="card-body">
-        <div class="row justify-content-between ml-4 mr-4 align-items-center">
-            <div class="col-sm-3">
-                <span align-middle>Full Name</span>
-            </div>
-            <div class="col-sm-3">
-                <span>Username</span>
-
-            </div>
-            <div class="col-sm-3">
-                <span>Role</span>
-            </div>
-            <div class="col-sm-3">
-            </div>
-        </div>
-    </div>
-</div>
-<div id="res">
-
-</div>
-<div class="modal fade" id="addmembermodal" tabindex="-1" role="dialog" aria-labelledby="addMemberModal" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addmembermodallabel">Add member</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="add-member">
-        <div class="row justify-content-center">
-        <div class="dropdown" id="dd">
-            <form class="form-inline md-form" id="formaddmember">
-                <div class="col-md-8">
-                    <input type="text" name="addnamesearch" class="form-control" id="addnamesearch" placeholder="Find member" v-model="username" @focus="open = true" @blur="blurring()" autocomplete="off">
-                    <input type="hidden" name="iduserhidden" class="form-control" id="iduserhidden" v-model="id">
-                    <i class="fa fa-search"></i>
-                </div>
-                <div class="col-md-2">
-                    <select class="form-control" id="roleselectorforadduser" name="user_role">
-                        <option selected>Admin</option>
-                        <option>Auditor</option>
-                        <option>Developer</option>
-                    </select>
-                </div>
-                <div class="dropdown-menu show" id="dm" v-if="open">
-                    <span v-for="x in filterUser()" class="dropdown-item cursor-pointer" v-on:click="setValue(x)"><i class="fa fa-user"></i>&nbsp;{{x['name']}}</span>
-                </div>
+<div id="memberspage">
+    <div class="row align-items-center">
+        <div class="col-sm-10" class="members">
+            <form class="form-inline md-form">
+                <input type="text" name="namesearch" class="members form-control" id="namesearch" placeholder="Find member" v-model="searchInputMember" v-on:keyup="filterMember()">
+                <i class="fa fa-search"></i>
             </form>
-            
         </div>
+        <div class="col-sm-2 justify-content-center">
+            <% if @role == 'Admin' %>
+                <button id="addnewmember" class="btn btn-info btn-success btn-sm d-flex" data-toggle="modal" data-target="#addmembermodal">Add new member</button>
+            <% end %>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" v-on:click="addMember()">Add member</button>
-      </div>
     </div>
-  </div>
+    <div class="card green darken-1" style="color:white">
+        <div class="card-body">
+            <div class="row justify-content-between ml-4 mr-4 align-items-center">
+                <div class="col-sm-3">
+                    <span align-middle>Full Name</span>
+                </div>
+                <div class="col-sm-3">
+                    <span>Username</span>
+
+                </div>
+                <div class="col-sm-3">
+                    <span>Role</span>
+                </div>
+                <div class="col-sm-3">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="res" class="members">
+        <div class="card" v-for="member in members">
+            <div class="card-body">
+                <div class="row justify-content-between ml-4 mr-4 align-items-center">
+                    <div class="col-sm-3">
+                        <span align-middle>{{member.name}}</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <span>{{member.username}}</span>
+
+                    </div>
+                    <div class="col-sm-3" v-bind:id="'rolemember-'+member.id">
+                        <span>{{member.role}}</span>
+                    </div>
+                    <div class="col-sm-3" v-bind:id="'btndiv-'+member.id">
+                        <% if @role == "Admin" %>
+                            <button v-bind:id="'deletebtn-'+member.id" v-bind:data-id="member.id" class="deletebtn btn btn-danger btn-sm d-flex float-right">Delete</button>
+                            <button v-bind:id="'editbtn-'+member.id" v-bind:data-id="member.id" class="editbtn btn btn-info btn-success btn-sm d-flex float-right">Edit</button>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addmembermodal" tabindex="-1" role="dialog" aria-labelledby="addMemberModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="addmembermodallabel">Add member</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" id="add-member">
+            <div class="row justify-content-center">
+            <div class="dropdown" id="dd">
+                <form class="form-inline md-form" id="formaddmember">
+                    <div class="col-md-8">
+                        <input type="text" name="addnamesearch" class="form-control" id="addnamesearch" placeholder="Find member" v-model="searchInputAddUser" @focus="open = true" @blur="blurring()" autocomplete="off">
+                        <input type="hidden" name="iduserhidden" class="form-control" id="iduserhidden" v-model="id">
+                        <i class="fa fa-search"></i>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control" id="roleselectorforadduser" name="user_role">
+                            <option selected>Admin</option>
+                            <option>Auditor</option>
+                            <option>Developer</option>
+                        </select>
+                    </div>
+                    <div class="dropdown-menu show" id="dm" v-if="open">
+                        <span v-for="x in filterUser()" class="dropdown-item cursor-pointer" v-on:click="setValue(x)"><i class="fa fa-user"></i>&nbsp;{{x['name']}}</span>
+                    </div>
+                </form>
+                
+            </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" v-on:click="addMember()">Add member</button>
+        </div>
+        </div>
+    </div>
+    </div>
 </div>
 <script>
     modalapp = new Vue({
-        el: "#addmembermodal",
+        el: "#memberspage",
         data: {
-            username: "",
+            searchInputMember: "",
+            searchInputAddUser: "",
             id: "",
             open: false,
             users: JSON.parse(<%= @users.inspect.html_safe %>),
-            members: JSON.parse(<%= @members.inspect.html_safe%>)
+            members: JSON.parse(<%= @members.inspect.html_safe%>),
+            members_persistent: JSON.parse(<%= @members.inspect.html_safe%>)
         },
         methods: {
+            filterMember: function (){
+               console.log(this.searchInput)
+                this.members = this.members_persistent.filter((x) => {
+                        return (x.username.includes(this.searchInputMember) || x.name.toLowerCase().includes(this.searchInputMember.toLowerCase()));
+                    });
+            },
+            getMember: function() {
+              return this.members;  
+            },
            filterUser: function() {
                return this.users.filter((x) => {
-                   return (x.username.includes(this.username) || x.name.toLowerCase().includes(this.username.toLowerCase())) && !this.isExists(x.username) ;
+                   return (x.username.includes(this.searchInputAddUser) || x.name.toLowerCase().includes(this.searchInputAddUser.toLowerCase())) && !this.isExists(x.username) ;
                })
            },
            isExists: function(username) {
                ret = false
-                this.members.forEach(element => {
+                this.members_persistent.forEach(element => {
                     if (element.username == username) {
                         ret = true
                     }
@@ -98,7 +132,7 @@
            },
            setValue: function(x) {
                console.log("CALLED")
-               this.username = x.username
+               this.searchInputAddUser = x.username
                this.id = x.id
            },
            blurring: function() {
@@ -126,7 +160,7 @@
                     }
                 }).then(() => {
                     alert('Changes saved')
-                    window.location.replace(`http://localhost:3000/${organization}/services`);  
+                    window.location.replace(`http://localhost:3000/${organization}`);  
                 }).catch((err) => {
                     console.log(err)
                 });
@@ -136,45 +170,6 @@
 </script>
 <script>
 $(document).ready(function(){
-     var members = JSON.parse(<%= @members.inspect.html_safe%>);
-    tagAppenderFunc(members)
-
-    // $("#addnamesearch").keyup(function () {
-    //     var namesearch = $(this).val();
-    //     if (namesearch.length > 0) {
-    //         $("#dd").addClass("open show");
-    //         $("#dm").addClass("show");
-            
-    //         var res = []
-    //         res = members.filter(function (x) {
-    //             return x.username.includes(namesearch) ||
-    //             x.name.toLowerCase().includes(namesearch);
-    //         });
-
-    //         addToDropdown(res);
-    //     } else {
-    //         $("#dd").removeClass("open show");
-    //         $("#dm").removeClass("show");
-
-    //         $("#dm").html('');
-    //     }
-    // });
-
-    $("#namesearch").keyup(function(){
-        var namesearch = $(this).val();
-        var res = []
-        res = members.filter(function (x) {
-            return x.username.includes(namesearch) ||
-            x.name.toLowerCase().includes(namesearch);
-        });
-        tagAppenderFunc(res)
-        $(".editbtn").click(function() {
-            editRole($(this).data().id);
-        });
-        $(".deletebtn").click(function(){
-            deleteMember($(this).data().id);
-        });
-    });
 
     $(".editbtn").click(function() {
         editRole($(this).data().id);
@@ -215,7 +210,7 @@ function editRole(id) {
         }
         }).then(() => {
         alert('Changes saved')
-        window.location.replace(`http://localhost:3000/${organization}/services`);  
+        window.location.replace(`http://localhost:3000/${organization}`);  
         }).catch((err) => {
         console.log(err)
         });
@@ -238,53 +233,9 @@ function deleteMember(id) {
         }
       }).then(() => {
         alert('Changes saved')
-        window.location.replace(`http://localhost:3000/${organization}/services`);  
+        window.location.replace(`http://localhost:3000/${organization}`);  
       }).catch((err) => {
         console.log(err)
       });
 }
-
-function tagAppenderFunc(data) {
-    var tagAppender = ""
-        data.forEach(element => {
-            tagAppender += `
-            <div class="card">
-                <div class="card-body">
-                    <div class="row justify-content-between ml-4 mr-4 align-items-center">
-                        <div class="col-sm-3">
-                            <span align-middle>${element.name}</span>
-                        </div>
-                        <div class="col-sm-3">
-                            <span>${element.username}</span>
-
-                        </div>
-                        <div class="col-sm-3" id="rolemember-${element.id}">
-                            <span>${element.role}</span>
-                        </div>
-                        <div class="col-sm-3" id="btndiv-${element.id}">
-                            <% if @role == "Admin" %>
-                                <button id="deletebtn-${element.id}" data-id="${element.id}" class="deletebtn btn btn-danger btn-sm d-flex float-right">Delete</button>
-                                <button id="editbtn-${element.id}" data-id="${element.id}" class="editbtn btn btn-info btn-success btn-sm d-flex float-right">Edit</button>
-                            <% end %>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            `;
-        });
-        $('#res').html(tagAppender)
-}
-// function setValue(id, username) {
-//     $("#addnamesearch").val(username);
-//     $('#iduserhidden').val(id);
-//     $("#dd").removeClass("open show");
-//     $("#dm").removeClass("show");
-// }
-// function addToDropdown(data) {
-//     var menuAppender = ""
-//     data.forEach(element => {
-//         menuAppender += `<span class="dropdown-item" onclick="setValue('${element.id}','${element.username}')"><i class="fa fa-user"></i>${element.name}</span>`
-//     });
-//     $("#dm").html(menuAppender);
-// }
 </script>

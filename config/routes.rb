@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   delete ':organization/member' => 'organization_member#delete_member'
   get ':organization/:namesearch/search' => 'organization_member#index'
 
-  get ':organization/services' => 'services#index'
+  get ':organization' => 'services#index'
   get ':organization/services/new' => 'services#create'
   post ':organization/services/new' => 'services#store'
 
