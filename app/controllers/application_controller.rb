@@ -35,4 +35,15 @@ class ApplicationController < ActionController::Base
     response = send_get("/users")
     @users = response.body
   end
+
+  def get_role(organization_name)
+    get_organizations()
+    @organizations.each {
+      |org|
+      if org["name"] == organization_name 
+        return org["role"]
+      end
+    }
+    return ""
+  end
 end

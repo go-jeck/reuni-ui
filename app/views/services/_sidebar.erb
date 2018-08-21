@@ -11,9 +11,11 @@
         <%= render :partial => 'shared/nodata' %>
       <% end %>
     </div>
-    <div class="row justify-content-center">
-      <a href="<%= "/#{params["organization"]}/services/new" %>">
-        <button class="btn btn-success btn-sm"> <i class="fa fa-plus-circle"></i> New</button>
-      </a>
-    </div>
+    <% if @role == 'Admin'%>
+      <div class="row justify-content-center">
+        <a href="<%= "/#{params["organization"]}/services/new" %>">
+          <button class="btn btn-success btn-sm"> <i class="fa fa-plus-circle"></i> New</button>
+        </a>
+      </div>
+    <% end %>
 </div>

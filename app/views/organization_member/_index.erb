@@ -44,14 +44,28 @@
                     <div class="col-sm-3" v-bind:id="'rolemember-'+member.id">
                         <span>{{member.role}}</span>
                     </div>
+                    <div class="col-sm-3" hidden v-bind:id="'rolememberedit-'+member.id">
+                        <select class="form-control" v-bind:id="'roleselector-'+member.id">
+                            <option :selected="member.role == 'Admin'">Admin</option>
+                            <option :selected="member.role == 'Auditor'">Auditor</option>
+                            <option :selected="member.role == 'Developer'">Developer</option>
+                        </select>
+                    </div>
                     <input type="hidden" name="oldrolehidden" v-bind:id="'oldrolehidden-'+member.id">
 
                     <div class="col-sm-3 btndiv" v-bind:id="'btndiv-'+member.id"Z>
                         <% if @role == "Admin"%>
-                            <span v-if="member.username != myUsername" class="row justify-content-center">
-                                <button v-bind:id="'editbtn-'+member.id" v-bind:data-id="member.id" class="editbtn btn btn-info btn-success btn-sm d-flex">Edit</button>
-                                <button v-bind:id="'deletebtn-'+member.id" v-bind:data-id="member.id" class="deletebtn btn btn-danger btn-sm d-flex">Delete</button>
+                            <span v-if="member.username != myUsername">
+                                <span v-bind:id="'buttonshowedwheneditfalse-'+member.id" class="row justify-content-center">
+                                    <button v-bind:id="'editbtn-'+member.id" v-bind:data-id="member.id" class="editbtn btn btn-info btn-success btn-sm d-flex" v-on:click="editRole(member.id)">Edit</button>
+                                    <button v-bind:id="'deletebtn-'+member.id" v-bind:data-id="member.id" class="deletebtn btn btn-danger btn-sm d-flex" v-on:click="deleteMember(member.id)">Delete</button>
+                                </span>
+                                <span v-bind:id="'buttonshowedwhenedittrue-'+member.id" hidden class="row justify-content-center">
+                                    <button v-bind:id="'savebtn-'+member.id" v-bind:data-id="member.id" class="savebtn btn btn-info btn-success btn-sm d-flex" v-on:click="saveNewRole(member.id)">Save</button>
+                                    <button v-bind:id="'cancelbtn-'+member.id" v-bind:data-id="member.id" class="cancelbtn btn btn-info btn-success btn-sm d-flex" v-on:click="cancelEdit(member.id)">Cancel</button>
+                                </span>
                             </span>
+                            
                         <% end %>
                         <div v-if="member.username == myUsername">
                             <span class="row justify-content-center small color-disabled"> This is You, bro!</span>
@@ -75,10 +89,10 @@
             <div class="dropdown" id="dd">
                 <form class="form-inline md-form" id="formaddmember">
                     <div class="col-md-8">
-                        <%# <input type="text" name="addnamesearch" class="form-control" id="addnamesearch" placeholder="Find member" v-model="searchInputAddUser" @focus="open = true" @blur="blurring()" autocomplete="off"> %>
-                        <input type="text" name="addnamesearch" class="form-control dropdown-toggle" id="addnamesearch" placeholder="Find member" v-model="searchInputAddUser" @blur="blurring()" autocomplete="off" data-toggle="dropdown" required v-on:keyup.delete="idRemoval()">
-                        <div class="dropdown-menu" role="menu" @blur="blurring()">
-                            <a v-for="x in filterUser()" class="dropdown-item cursor-pointer" v-on:click="setValue(x)" href="#"><i class="fa fa-user"></i>&nbsp;{{x['name']}}</a>
+                        <input type="text" name="addnamesearch" class="form-control dropdown-toggle" id="addnamesearch" placeholder="Find member" v-model="searchInputAddUser" @blur="blurring()" autocomplete="off" data-toggle="dropdown" required v-on:keyup.delete="idRemoval()" v-on:keydown.enter.prevent="setMember()">
+                        <div id="dropdown" class="dropdown-menu" role="menu" @blur="blurring()">
+                            <a v-for="x in filterUser()" class="dropdown-item cursor-pointer" v-on:click="setValue(x)" href="#"><i class="fa fa-user"></i>&nbsp;{{x['username']}} - {{x['name']}}</a>
+                            <a v-if="filterUser().length == 0" class="dropdown-item disabled" >Not found</a>
                         </div>
                         <input type="hidden" name="iduserhidden" class="form-control" id="iduserhidden" v-model="id" required>
                         <i class="fa fa-search"></i>
@@ -90,9 +104,6 @@
                             <option>Developer</option>
                         </select>
                     </div>
-                    <%# <div class="dropdown-menu show" id="dm" v-if="open">
-                        <span v-for="x in filterUser()" class="dropdown-item cursor-pointer" v-on:click="setValue(x)"><i class="fa fa-user"></i>&nbsp;{{x['name']}}</span>
-                    </div> %>
                 </form>
                 
             </div>
@@ -110,98 +121,6 @@
     </div>
     </div>
 </div>
-
-<script>
-$(document).ready(function(){
-    $(".btndiv").on('click','button.editbtn',function() {
-        editRole($(this).data().id);
-    });
-    $(".btndiv").on('click','button.deletebtn',function(){
-        deleteMember($(this).data().id);
-    });
-    $('.btndiv').on('click', 'button.cancelbtn', function(){
-        id = $(this).data().id;
-        oldRole = $('#oldrolehidden-'+id).val();
-        $('#rolemember-'+id).html(`<span>${oldRole}</span>`);
-        $('#btndiv-'+id).html(
-        `<span class="row justify-content-center">
-            <button id="editbtn-${id}" data-id="${id}" class="editbtn btn btn-info btn-success btn-sm d-flex">Edit</button>
-            <button id="deletebtn-${id}" data-id="${id}" class="deletebtn btn btn-danger btn-sm d-flex">Delete</button>
-        </span>
-        `
-        )
-    });
-});
-
-function editRole(id) {
-    p = $('#rolemember-'+id);
-    oldRole = $('#rolemember-'+id).first().text().trim();
-    $('#oldrolehidden-'+id).val(oldRole);
-    $(p).html(`
-        <select class="form-control" id="roleselector-${id}">
-            <option ${(oldRole => {if(oldRole=="Admin") return `selected`})(oldRole)}>Admin</option>
-            <option ${(oldRole => {if(oldRole=="Auditor") return `selected`})(oldRole)}>Auditor</option>
-            <option ${(oldRole => {if(oldRole=="Developer") return `selected`})(oldRole)}>Developer</option>
-        </select>
-    `)
-
-    $('#btndiv-'+id).html(
-        `
-        <span class="row justify-content-center">
-            <button id="savebtn-${id}" data-id="${id}" class="savebtn btn btn-info btn-success btn-sm d-flex">Save</button>
-            <button id="cancelbtn-${id}" data-id="${id}" class="cancelbtn btn btn-info btn-success btn-sm d-flex">Cancel</button>
-        </span>
-        `
-    )
-    $("#savebtn-"+id).on('click',function(){        
-        var arrServiceName = window.location.pathname.split( '/' )
-        var organization = arrServiceName[1]
-
-        axios({
-        method: 'patch',
-        url: "/"+organization+"/member",
-        data: {
-            user_id: id,
-            newrole: $('#roleselector-'+id+" option:selected").text()
-        },
-        headers: {
-            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
-            'Content-Type': 'application/json'
-        }
-        }).then(() => {
-        alert('Changes saved')
-        window.location.replace(`http://localhost:3000/${organization}`);  
-        }).catch((err) => {
-        console.log(err)
-        });
-    });
-}
-
-function deleteMember(id) {
-    var r = confirm("Do you really want to delete this user?");
-    if (r == true) {        
-        var arrServiceName = window.location.pathname.split( '/' )
-        var organization = arrServiceName[1]
-    
-        axios({
-            method: 'delete',
-            url: "/"+organization+"/member",
-            data: {
-            user_id: id
-            },
-            headers: {
-            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
-            'Content-Type': 'application/json'
-            }
-        }).then(() => {
-            alert('Changes saved')
-            window.location.replace(`http://localhost:3000/${organization}`);  
-        }).catch((err) => {
-            console.log(err)
-        });
-    }
-}
-</script>
 <script>
     modalapp = new Vue({
         el: "#memberspage",
@@ -226,7 +145,6 @@ function deleteMember(id) {
               return this.members;  
             },
            filterUser: function() {
-               
                return this.users.filter((x) => {
                    return (x.username.includes(this.searchInputAddUser) || x.name.toLowerCase().includes(this.searchInputAddUser.toLowerCase())) && !this.isExists(x.username) ;
                })
@@ -241,19 +159,14 @@ function deleteMember(id) {
                 return ret 
            },
            setValue: function(x) {
-               console.log("CALLED")
                this.searchInputAddUser = x.username
                this.id = x.id
                $(".dropdown-menu").removeClass("show")
            },
            blurring: function() {
-               console.log("blur was happened")
                if (this.id != "") {
                    this.id = "";
                }
-               //setTimeout(() => {
-               //  this.open = false
-               // }, 100);
            },
            addMember: function() {
                arrServiceName = window.location.pathname.split( '/' )
@@ -290,6 +203,90 @@ function deleteMember(id) {
            },
            idRemoval: function () {
                this.id="";
+           },
+           editRole: function (id) {
+                oldRole = $('#rolemember-'+id).first().text().trim();
+                $('#oldrolehidden-'+id).val(oldRole);
+
+                $('#rolememberedit-'+id).removeAttr('hidden');
+                $('#rolemember-'+id).attr('hidden', 'hidden');
+
+                $('#buttonshowedwheneditfalse-'+id).attr('hidden', 'hidden');
+                $('#buttonshowedwhenedittrue-'+id).removeAttr('hidden');
+           },
+           cancelEdit: function (id) {
+                oldRole = $('#oldrolehidden-'+id).val();
+                $('#rolemember-'+id).html(`<span>${oldRole}</span>`);
+    
+                $('#rolememberedit-'+id).attr('hidden', 'hidden');
+                $('#rolemember-'+id).removeAttr('hidden');
+
+                $('#buttonshowedwhenedittrue-'+id).attr('hidden', 'hidden');
+                $('#buttonshowedwheneditfalse-'+id).removeAttr('hidden');
+           },
+           saveNewRole: function(id) {
+                var arrServiceName = window.location.pathname.split( '/' )
+                var organization = arrServiceName[1]
+
+                axios({
+                method: 'patch',
+                url: "/"+organization+"/member",
+                data: {
+                    user_id: id,
+                    newrole: $('#roleselector-'+id+" option:selected").text()
+                },
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
+                    'Content-Type': 'application/json'
+                }
+                }).then(() => {
+                alert('Changes saved')
+                window.location.replace(`http://localhost:3000/${organization}`);  
+                }).catch((err) => {
+                console.log(err)
+                });
+           },
+           deleteMember: function (id) {
+               var r = confirm("Do you really want to delete this user?");
+                if (r == true) {        
+                    var arrServiceName = window.location.pathname.split( '/' )
+                    var organization = arrServiceName[1]
+                
+                    axios({
+                        method: 'delete',
+                        url: "/"+organization+"/member",
+                        data: {
+                        user_id: id
+                        },
+                        headers: {
+                        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type': 'application/json'
+                        }
+                    }).then(() => {
+                        alert('Changes saved')
+                        window.location.replace(`http://localhost:3000/${organization}`);  
+                    }).catch((err) => {
+                        console.log(err)
+                    });
+                }
+           },
+           setMember: function () {
+                count = 0
+                this.users.forEach(element => {
+                    if (element.username.includes(this.searchInputAddUser)) {
+                        count += 1
+                        if (count < 2 && count > 0) {
+                            item = element
+                        }
+                    }
+                });
+                
+                if (count < 2 && count > 0) {
+                    this.searchInputAddUser = item.username
+                    this.id = item.id
+                    $(".dropdown-menu").removeClass("show")
+
+                }
            }
         }
     })

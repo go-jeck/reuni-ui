@@ -5,7 +5,7 @@
   <div class="col-md-9">
     <h3 class="text-left">New Service</h3>
     <% if @error %>
-      <%= @error["status"] %>
+      <span class="alert alert-danger"><%= @error["message"] %></span>
     <% end %>
     <form method="post" id="new-app">
       <p><input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" ></p>
@@ -17,7 +17,7 @@
             <div class="col-md-8">
               <div class="form-grou md-form">
                 <label for="service-name"><strong>Name (no space)</strong></label>
-                <input type="text" class="form-control" id="service-name" name="service_name" required pattern="^[^.|\s]+$">
+                <input type="text" class="form-control" id="service-name" name="service_name" required pattern="^[^.|\s]+$" title="Service name should not contain any '.' or any whitespaces">
               </div>
             </div>
           </div>

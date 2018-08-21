@@ -53,11 +53,13 @@
           <%= render :partial => 'shared/nodata' %>
         <% end %>
       </div>
-      <div class="row justify-content-center">
-        <a href="/<%= params["organization"] %>/<%= @servicename %>/namespaces/new" class="btn btn-success btn-sm align-items-center" style="text-decoration:none;">
-          <span class="fa fa-plus-circle"></span> &nbsp;New
-        </a>
-      </div>
+      <% if @role != 'Auditor'%>
+        <div class="row justify-content-center">
+          <a href="/<%= params["organization"] %>/<%= @servicename %>/namespaces/new" class="btn btn-success btn-sm align-items-center" style="text-decoration:none;">
+            <span class="fa fa-plus-circle"></span> &nbsp;New
+          </a>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

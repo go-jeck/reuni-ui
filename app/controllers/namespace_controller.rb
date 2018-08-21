@@ -16,6 +16,7 @@ class NamespaceController < ApplicationController
     if response.code == 200
       @namespaces = JSON.parse(response.body)
     end
+    @role = get_role(@organization)
   end
 
   def create; end
@@ -35,7 +36,8 @@ class NamespaceController < ApplicationController
     if result.code == 201
        redirect_to "/#{params["organization"]}/#{params["service"]}/namespaces"
     else
-      @error = JSON.parse(response.body)
+      @error = JSON.parse(result.body)
+      render 'namespace/create'
     end
   end
 

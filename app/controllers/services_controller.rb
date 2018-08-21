@@ -14,12 +14,7 @@ class ServicesController < ApplicationController
 
       if response.body != 'null'
         @services = JSON.parse(response.body)
-        @organizations.each {
-          |org|
-          if org["name"] == @org_url 
-            @role = org["role"]
-          end
-        }
+        @role = get_role(@org_url)
       end
     else
       response response.code
@@ -55,7 +50,7 @@ class ServicesController < ApplicationController
         @error = JSON.parse(response2.body)
         render 'services/create'
       else
-        redirect_to "/#{@org}/services"
+        redirect_to "/#{@org}"
       end
     else
       @error = JSON.parse(response.body)

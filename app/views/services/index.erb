@@ -47,11 +47,13 @@
                             <%= render :partial => 'shared/nodata' %>
                         <% end %>
                     </div>
-                    <div class="row justify-content-center mt-4">
-                        <a href="/<%= @org %>/services/new" class="btn btn-success btn-md d-flex align-items-center" style="text-decoration:none;">
-                            <i class="fa fa-plus-circle"></i>&nbsp;New
-                        </a>
-                    </div>
+                    <% if @role == 'Admin'%>
+                        <div class="row justify-content-center mt-4">
+                            <a href="/<%= params['organization'] %>/services/new" class="btn btn-success btn-md d-flex align-items-center" style="text-decoration:none;">
+                                <i class="fa fa-plus-circle"></i>&nbsp;New
+                            </a>
+                        </div>
+                    <% end %>
                     <!-- Nav tabs -->
                 </div>
                 <!--/.Panel 1-->

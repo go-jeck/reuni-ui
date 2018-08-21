@@ -26,6 +26,7 @@ class ConfigurationsController < ApplicationController
     @configs = JSON.parse(response.body)
     @configkeys = @configs['configuration'].keys
     @configvalues = @configs['configuration'].values
+    @role = get_role(@organization)
   end
 
   def configuration_update
