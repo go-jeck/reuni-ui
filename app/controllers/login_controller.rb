@@ -31,8 +31,9 @@ class LoginController < ApplicationController
         expires: 1.hour,
       }
       redirect_to root_path
-    else 
-      redirect_to login_path
+    else
+      @error = JSON.parse(response.body)
+      render "/login/login_user"
     end
   end
 
