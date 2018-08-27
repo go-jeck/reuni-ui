@@ -28,7 +28,11 @@ class LoginController < ApplicationController
       cookies[:username] = params["username"]
       cookies[:token] = {
         value: @userdata["token"],
-        expires: 1.hour,
+        expires: 1.minute,
+      }
+      cookies[:refresh_token] = {
+        value: @userdata["refresh_token"],
+        expires: 1.day,
       }
       redirect_to root_path
     else

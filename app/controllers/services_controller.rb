@@ -7,14 +7,14 @@ class ServicesController < ApplicationController
 
   def index
     @org_url = params['organization']
-    get_members()
-    get_users()
     response = send_get("/#{@org_url}/services")
     if response.code == 200
 
       if response.body != 'null'
         @services = JSON.parse(response.body)
         @role = get_role(@org_url)
+        get_members()
+        get_users()
       end
     else
       response response.code
@@ -23,28 +23,20 @@ class ServicesController < ApplicationController
 
   def store
     @org = params['organization']
-    response = HTTParty.post(
-        "#{ENV["REUNI_HOST"]}/#{@org}/services",
+    response = send_post(
+        "/#{@org}/services",
         :body => {
             :name => params['service_name'],
             :configuration => params['configuration']
-        }.to_json,
-        :headers => {
-            'Content-Type' => 'application/json',
-            'Authorization' => "Bearer #{cookies[:token]}"
-        }
+        }.to_json
     )
     if response.code == 201
-      response2 = HTTParty.post(
-          "#{ENV["REUNI_HOST"]}/#{@org}/#{params['service_name']}/namespaces",
+      response2 = send_post(
+          "/#{@org}/#{params['service_name']}/namespaces",
           :body => {
               :namespace => 'default',
               :configurations => JSON.parse(params['configuration'])
-          }.to_json,
-          :headers => {
-              'Content-Type' => 'application/json',
-              'Authorization' => "Bearer #{cookies[:token]}"
-          }
+          }.to_json
       )
       if response2.code != 201
         @error = JSON.parse(response2.body)
@@ -62,9 +54,5 @@ class ServicesController < ApplicationController
 
   def service_form
 
-  end
-
-  def service_form_handler
-    puts "Heloooo"
   end
 end

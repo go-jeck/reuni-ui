@@ -10,18 +10,8 @@ class ConfigurationsController < ApplicationController
     @servicename = params['service']
     @namespace = params['namespace']
     @version = params['version']
-    verion_list_response = HTTParty.get(
-      "#{ENV['REUNI_HOST']}/#{@organization}/#{@servicename}/#{@namespace}/versions",
-      headers: {
-        'Authorization' => "Bearer #{cookies[:token]}"
-      }
-    )
-    response = HTTParty.get(
-      "#{ENV['REUNI_HOST']}/#{@organization}/#{@servicename}/#{@namespace}/#{@version}",
-      headers: {
-        'Authorization' => "Bearer #{cookies[:token]}"
-      }
-    )
+    verion_list_response = send_get("/#{@organization}/#{@servicename}/#{@namespace}/versions")
+    response = send_get("/#{@organization}/#{@servicename}/#{@namespace}/#{@version}")
     @versions = JSON.parse(verion_list_response.body)
     @configs = JSON.parse(response.body)
     @configkeys = @configs['configuration'].keys
@@ -35,12 +25,7 @@ class ConfigurationsController < ApplicationController
     @recentnamespace = params['namespace']
     @recentversion = params['version']
     puts @recentorganization + " " +@recentservicename
-    response = HTTParty.get(
-      "#{ENV['REUNI_HOST']}/#{@recentorganization}/#{@recentservicename}/#{@recentnamespace}/#{@recentversion}",
-      headers: {
-        'Authorization' => "Bearer #{cookies[:token]}"
-      }
-    )
+    response = send_get("/#{@recentorganization}/#{@recentservicename}/#{@recentnamespace}/#{@recentversion}")
     puts "response: "+ response.body
     @recentconfigs = JSON.parse(response.body)
     @recentconfigkeys = @recentconfigs['configuration'].keys
@@ -48,15 +33,10 @@ class ConfigurationsController < ApplicationController
   end
 
   def store_configuration_update
-    @result = HTTParty.post(
-      "#{ENV['REUNI_HOST']}/#{params['organization']}/#{params['servicename']}/#{params['namespace']}",
-      body: {
+    @result = send_post(
+      "/#{params['organization']}/#{params['servicename']}/#{params['namespace']}",{
         configuration: params['configurations']
-      }.to_json,
-      headers: {
-        'Content-Type' => 'application/json',
-        'Authorization' => "Bearer #{cookies[:token]}"
-      }
+      }.to_json
     )
   end
 end

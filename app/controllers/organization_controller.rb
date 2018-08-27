@@ -11,15 +11,11 @@ class OrganizationController < ApplicationController
 
   end
   def store
-    response = HTTParty.post(
-        "#{ENV["REUNI_HOST"]}/organization",
-        :body => {
+    response = send_post(
+        "/organization",
+        {
             :name => params['organization_name'],
-        }.to_json,
-        :headers => {
-            'Content-Type' => 'application/json',
-            'Authorization' => "Bearer #{cookies[:token]}"
-    }
+        }.to_json
     )
     if response.code == 201
       redirect_to  dashboard_user_path

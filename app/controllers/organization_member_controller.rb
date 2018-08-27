@@ -33,7 +33,8 @@ class OrganizationMemberController < ApplicationController
       }.to_json,
       headers: {
         'Content-Type' => 'application/json',
-        'Authorization' => "Bearer #{cookies[:token]}"
+        'Authorization' => "Bearer #{cookies[:token]}",
+        'refresh-token' => "Bearer #{cookies[:refresh_token]}"
       }
     )
     return response
@@ -47,23 +48,20 @@ class OrganizationMemberController < ApplicationController
       }.to_json,
       headers: {
         'Content-Type' => 'application/json',
-        'Authorization' => "Bearer #{cookies[:token]}"
+        'Authorization' => "Bearer #{cookies[:token]}",
+        'refresh-token' => "Bearer #{cookies[:refresh_token]}"
       }
     )
     return response
   end
 
   def add_member
-    response = HTTParty.post(
-      "#{ENV['REUNI_HOST']}/#{params['organization']}/member",
-      body: {
+    response = send_post(
+      "/#{params['organization']}/member",
+      {
         user_id: params['user_id'],
         role: params['user_role']
-      }.to_json,
-      headers: {
-        'Content-Type' => 'application/json',
-        'Authorization' => "Bearer #{cookies[:token]}"
-      }
+      }.to_json
     )
     return response
   end

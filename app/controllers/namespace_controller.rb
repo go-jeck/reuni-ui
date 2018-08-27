@@ -22,16 +22,12 @@ class NamespaceController < ApplicationController
   def create; end
 
   def store
-    result = HTTParty.post(
-      "#{ENV['REUNI_HOST']}/#{params['organization']}/#{params['service']}/namespaces",
-      body: {
+    result = send_post(
+      "/#{params['organization']}/#{params['service']}/namespaces",
+      {
         namespace: params['namespace'],
         configurations: JSON.parse(params['configuration'])
-      }.to_json,
-      headers: {
-        'Content-Type' => 'application/json',
-        'Authorization' => "Bearer #{cookies[:token]}"
-      }
+      }.to_json
     )
     if result.code == 201
        redirect_to "/#{params["organization"]}/#{params["service"]}/namespaces"

@@ -4,8 +4,19 @@ module ApplicationHelper
         "#{ENV["REUNI_HOST"]}#{endpoint}",
         :headers => {
             'Content-Type' => 'application/json',
-            'Authorization' => "Bearer #{cookies[:token]}"
-    }
+            'Authorization' => "Bearer #{cookies[:token]}",
+        }
+    )
+  end
+
+  def send_post(endpoint = "/", body)
+    return response = HTTParty.post(
+      "#{ENV["REUNI_HOST"]}#{endpoint}",
+      :headers => {
+          'Content-Type' => 'application/json',
+          'Authorization' => "Bearer #{cookies[:token]}",
+      },
+      :body => body
     )
   end
 end
