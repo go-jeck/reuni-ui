@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
           expires: 1.minute,
         }
       elsif response.code == 401
-        redirect_to login_path
+        return response.code
       end
   end
 
@@ -41,7 +41,9 @@ class ApplicationController < ActionController::Base
     if response.code == 200
       @organizations = JSON.parse(response.body)
     elsif response.code == 401
-      generate_new_token()
+      if generate_new_token() == 401
+        redirect_to login_path and return
+      end
       get_organizations()
     else
       redirect_to logout_path
@@ -53,7 +55,9 @@ class ApplicationController < ActionController::Base
     if response.code == 200
       @services = JSON.parse(response.body)
     elsif response.code == 401
-      generate_new_token()
+      if generate_new_token() == 401
+        redirect_to login_path and return
+      end
       get_services()
     else
       redirect_to logout_path
@@ -64,7 +68,9 @@ class ApplicationController < ActionController::Base
     if response.code == 200
       @namespaces = JSON.parse(response.body)
     elsif response.code == 401
-      generate_new_token()
+      if generate_new_token() == 401
+        redirect_to login_path and return
+      end
       get_namespaces()
     else
       redirect_to logout_path
@@ -76,7 +82,9 @@ class ApplicationController < ActionController::Base
     if response.code == 200
       @members = response.body
     elsif response.code == 401
-      generate_new_token()
+      if generate_new_token() == 401
+        redirect_to login_path and return
+      end
       get_members()
     else
       redirect_to logout_path
@@ -87,8 +95,6 @@ class ApplicationController < ActionController::Base
     response = send_get("/users")
     if response.code == 200
       @users = response.body
-    # elsif response.code == 401
-    #   generate_new_token()
     else
       redirect_to logout_path
     end

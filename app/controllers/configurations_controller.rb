@@ -35,9 +35,19 @@ class ConfigurationsController < ApplicationController
   def store_configuration_update
     @result = send_post(
       "/#{params['organization']}/#{params['servicename']}/#{params['namespace']}",{
-        configuration: params['configurations']
+        configuration: params['configurations'],
+        parent_version: params['version'].to_i
       }.to_json
     )
+  end
+
+  def compare_configuration
+    @organization = params['organization']
+    @servicename = params['service']
+    @namespace = params['namespace']
+    @version = params['version']
+    response = send_get("/#{@organization}/#{@servicename}/#{@namespace}/#{@version}/compare")
+    @configsdifference = JSON.parse(response.body)
   end
 end
 

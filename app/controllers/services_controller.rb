@@ -25,15 +25,14 @@ class ServicesController < ApplicationController
     @org = params['organization']
     response = send_post(
         "/#{@org}/services",
-        :body => {
-            :name => params['service_name'],
-            :configuration => params['configuration']
+        {
+            :name => params['service_name']
         }.to_json
     )
     if response.code == 201
       response2 = send_post(
           "/#{@org}/#{params['service_name']}/namespaces",
-          :body => {
+          {
               :namespace => 'default',
               :configurations => JSON.parse(params['configuration'])
           }.to_json

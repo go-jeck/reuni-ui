@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
 
   get ':organization/:service/:namespace/:version' => 'configurations#show'
+  get ':organization/:service/:namespace/:version/compare' => 'configurations#compare_configuration'
   get ':organization/:service/:namespace/:version/edit' => 'configurations#configuration_update'
 
   post ':organization/:service/:namespace/:version/edit/update' => 'configurations#store_configuration_update'

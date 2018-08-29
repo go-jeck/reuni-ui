@@ -66,6 +66,7 @@ class LoginController < ApplicationController
   def logout
     cookies.delete :username
     cookies.delete :token
+    cookies.delete :refresh_token
     redirect_to '/login'
   end
 end

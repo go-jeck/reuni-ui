@@ -107,9 +107,10 @@
       var organization = arrServiceName[1]
       var servicename = arrServiceName[2]
       var namespace = arrServiceName[3]
-      var version = arrServiceName[4]
+      var version = parseInt(arrServiceName[4])
       
       var urls = organization+"/"+servicename+"/"+namespace
+      console.log(typeof version)
   
       axios({
         method: 'post',
@@ -118,7 +119,8 @@
           organization: organization,
           servicename: servicename,
           namespace: namespace,
-          configurations: jsonConfigs
+          configurations: jsonConfigs,
+          parent_version: version
         },
         headers: {
           'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
